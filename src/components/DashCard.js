@@ -1,5 +1,6 @@
 import React, { useEffect} from 'react';
 import { formatPrice,fancyTimeFormat } from '../helpers'
+import Badge from '@material-ui/core/Badge';
 import { Paragraph, 
       CardMedia,
       PopoverContent,
@@ -21,6 +22,7 @@ import { Paragraph,
       Button,
       Form,
       FieldText,
+      Fieldset,
       InputText} from '@looker/components'
 import {  Add, MoreVert, Comment } from '@styled-icons/material'
 import { LogoRings, 
@@ -47,7 +49,11 @@ const DashCard = ({index, details, addToOrder, runQuery}) => {
     const icon = isAvailable ? <LogoRings /> : 'X';
     const hoverRef = React.useRef()
     const commentRef= React.useRef()
-    const content = <PopoverContent p="large"><Button>Report a Problem</Button></PopoverContent>
+    const content = <PopoverContent p="large"><Button onClick={() => (<PopoverContent p="large"><Fieldset legend="Report Problem">
+                                                                          <FieldText label="Assignee" />
+                                                                          <FieldText label="Overview" />
+                                                                          <FieldText label="Description" />
+                                                                        </Fieldset></PopoverContent>)}>Report a Problem</Button></PopoverContent>
     const commentPop = <PopoverContent p="large"><Form>  <FieldText label="Comment" ref={commentRef} name="Comment" placeholder="What's your beef?" />
     <Button onClick={submitComment}>Submit</Button></Form></PopoverContent>
     return (
@@ -78,7 +84,15 @@ const DashCard = ({index, details, addToOrder, runQuery}) => {
                               <FlexItem id='add' margin='small'><Tooltip content='Add to list under Boards to enable adding to a personal Looker Board'><IconButton icon={ <Add /> }  label='Add To Board'  size="medium" onClick={handleClick}/></Tooltip><Span fontSize='small' >Add</Span>
                               </FlexItem>    
                                 
-                              <FlexItem id='comment' margin='small'><Tooltip content='Add a comment'><Popover content={commentPop}><IconButton icon={ <Comment /> }  label='Add Comment'  size="medium" onClick={addComment}/></Popover></Tooltip><Span fontSize='small' >Comment</Span>
+                              <FlexItem id='comment' margin='small'>
+                                  <Tooltip content='Add a comment'>
+                                    <Popover content={commentPop}>
+                                    <Badge badgeContent={4} color="primary">
+                                        <IconButton icon={ <Comment /> }  label='Add Comment'  size="medium" onClick={addComment}/>
+                                      </Badge>
+                                    </Popover>
+                                  </Tooltip>
+                                <Span fontSize='small' >Comment</Span>
                               </FlexItem>
     
                               {showExplore ? 
@@ -88,11 +102,7 @@ const DashCard = ({index, details, addToOrder, runQuery}) => {
                             <Flex>
                               <FlexItem id='metacard'>
                                 <Card ref={hoverRef} raised>
-                                  <Flex justifyContent='space-between' id='metadata'>
-                                    <FlexItem id='metadata'><Span padding='2px' justifyContent='centre' fontSize="xsmall" color="subdued">
-                                      Metadata:
-                                    </Span>
-                                    </FlexItem>
+                                  <Flex justifyContent='flex-end' id='metadata'>
                                     <FlexItem id='runtime' padding='2px'>{showRuntime ? 
                                       <Flex>
                                         <Tooltip content='Average Runtime as calculated by System Activity'><Icon icon={<DashboardGauge/>} label="Average Runtime" color='#959a9d' size='xsmall' />

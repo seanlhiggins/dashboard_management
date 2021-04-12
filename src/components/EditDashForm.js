@@ -51,26 +51,26 @@ const EditDashForm = ({updateDash,getFreshMetadata, deleteDash, index, dashes}) 
                     onChange={handleChange} 
                     value={dashes.image} name='image' />
             </Flex>
-            <Flex justifyContent='space-evenly'>
-                <FlexItem><Button size='small' onClick={()=>{deleteDash(index)}}>Remove Dashboard</Button></FlexItem>
+            <Flex justifyContent='space-between'>
+                <FlexItem><Button size='xsmall' onClick={()=>{deleteDash(index)}}>Remove</Button></FlexItem>
                 <FlexItem> <FieldCheckbox id="showRuntime"
                                     onChange={handleCheck}
                                     name='showRuntime'
-                                    label="Show Runtime"
+                                    label="Runtime"
                                     value={dashes.showRuntime}/></FlexItem>
                 <FlexItem> <FieldCheckbox id="showExplore"
                                     name='showExplore'
                                     onChange={handleCheck}
                                     checked={dashes.showExplore}
                                     defaultChecked={false}
-                                    label="Allow Sample Query"/></FlexItem>
+                                    label="Allow Query"/></FlexItem>
                 <FlexItem> <FieldCheckbox id="showOwner"
                                     name='showOwner'
                                     onChange={handleCheck}
                                     defaultChecked={false}
                                     checked={dashes.showOwner}
                                     label="Owner"/></FlexItem>
-                <FlexItem><Button color='critical' size='small' onClick={() => {getFreshMetadata(index,dashboardId)}}>Get Fresh Metadata</Button></FlexItem>
+                <FlexItem><Button color='critical' size='xsmall' onClick={() => {getFreshMetadata(index,dashboardId)}}>Update Metadata</Button></FlexItem>
             </Flex>
         </Flex>
         <Divider size="3px" customColor='#4285f4'/>

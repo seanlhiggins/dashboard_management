@@ -4,6 +4,7 @@ import Inventory from './Inventory'
 import Order from './Order'
 import sampledashes from '../sample-dashes'
 import DashCard from './DashCard';
+import DashboardDisplay from './DashboardDisplay'
 import base from '../base';
 import firebase from 'firebase'
 import { Card, Grid,
@@ -16,7 +17,7 @@ import { Card, Grid,
     Flex, 
     FlexItem, 
     Divider, 
-    Box, Panel, Panels, ListItem,
+    Box, Panel, Panels, ListItem, GridPlaceholder,
     DividerVertical } from '@looker/components'
     import {  ArrowLeft, ArrowRight, ArrowBack, ArrowForward} from '@styled-icons/material'
     import { LogoRings, 
@@ -54,6 +55,7 @@ const App = () => {
     const [sampleQueries, setQueries] = useState({'101':''})
     const [queryRunning, setQueryRunning] = useState(false)
     const [querySelected, setQuerySelected] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
 
   
     const title = (
@@ -236,7 +238,9 @@ const App = () => {
                 <Heading>Centre of Excellence</Heading>
                 <Divider/>
                     <Flex justifyContent='space-evenly'>
-                    <Panels>
+                    {/* <Grid columns={3}> */}
+                    {/* <GridPlaceholder> */}
+                        <Panels>
                         <List iconGutter>
                         <Panel defaultOpen={true} content={
                         <Box padding='10px' >
@@ -268,8 +272,10 @@ const App = () => {
                         
                         </List>
                     </Panels>
+                    {/* </GridPlaceholder> */}
+                    {/* <GridPlaceholder width='10%'> */}
                     <Panels>
-                    <Panel content={<Box padding='10px' >
+                    <Panel content={<Box padding='10px' height='100%' >
                             <Order 
                             dashes={dashes}
                             orders={orders}
@@ -279,12 +285,16 @@ const App = () => {
                             queryRunning={queryRunning}
                             querySelected={querySelected}
                             />
+                            
                         </Box>
                         } direction="left" title="Boards">
                         <ListItem icon={<ArrowForward />} >Boards</ListItem>
                         </Panel>
                     </Panels>
-                    <Panels>
+                    {/* </GridPlaceholder> */}
+                    {/* <GridPlaceholder width='10%'> */}
+
+                    <Panels >
                     <Panel content={<Box padding='10px' >
                     <Inventory 
                         getFreshMetadata={getFreshMetadata}
@@ -300,7 +310,18 @@ const App = () => {
                     <ListItem icon={<ArrowForward />}>Management</ListItem>
                     </Panel>
                     </Panels>
-                            <DividerVertical stretch/>
+                    
+                    <Panels>
+                        <Panel content={
+                        <Box height='100%' width='100%' >
+                        <DashboardDisplay
+                            dashboard={'67'}
+                            setIsLoading={setIsLoading}
+                        />
+                        </Box>} direction='left' title='Embed'>                    
+                            <ListItem icon={<ArrowForward />}>Embed</ListItem>
+                        </Panel>
+                    </Panels>
 
                         
                         <DividerVertical stretch/>
