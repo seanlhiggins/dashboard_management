@@ -1,8 +1,9 @@
 import React from 'react'
 import { formatPrice } from '../helpers';
-import { ComponentsProvider, Button, Box, FieldCheckbox, Flex, FlexItem, Select, InputText, Divider, SpaceVertical, TextArea }  from '@looker/components'
+import { ComponentsProvider, Button, Box, FieldCheckbox, Flex, FlexItem, Select, InputText, Divider, SpaceVertical }  from '@looker/components'
 
-const EditDashForm = ({updateDash, deleteDash, index, dashes}) =>{
+const EditDashForm = ({updateDash,getFreshMetadata, deleteDash, index, dashes}) =>{
+    const dashboardId = dashes.id
     const handleChange = (e) => {
         // update that dash
         const updatedDash = {...dashes, [e.currentTarget.name]: e.currentTarget.value};
@@ -69,6 +70,7 @@ const EditDashForm = ({updateDash, deleteDash, index, dashes}) =>{
                                     defaultChecked={false}
                                     checked={dashes.showOwner}
                                     label="Owner"/></FlexItem>
+                <FlexItem><Button color='critical' size='small' onClick={() => {getFreshMetadata(index,dashboardId)}}>Get Fresh Metadata</Button></FlexItem>
             </Flex>
         </Flex>
         <Divider size="3px" customColor='#4285f4'/>

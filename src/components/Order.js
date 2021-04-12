@@ -73,7 +73,7 @@ const Order = ({dashes, orders, createNewBoard, sampleQueries,removeFromOrder, q
 
                         <UnorderedList>
                     <Span>Sample Query</Span>
-                        <Text>Output of sample query from dashboards will be displayed below in JSON format.</Text>
+                        <Paragraph>Output of sample query from dashboards.</Paragraph>
                         {queryRunning ? <Spinner /> :<Paragraph>{JSON.stringify(queryToRender)}</Paragraph>} 
                     </UnorderedList>
 

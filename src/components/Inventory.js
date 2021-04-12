@@ -4,7 +4,7 @@ import AddDashForm from './AddDashForm';
 import EditDashForm from './EditDashForm';
 
 
-const Inventory = ({dashes,loadSampleDashes,addDash,deleteDash, updateDash}) => {
+const Inventory = ({dashes,loadSampleDashes,addDash,deleteDash, getFreshMetadata,updateDash}) => {
         return (
             <ComponentsProvider globalStyle={false}>
                 <Heading fontWeight='bold'>Management</Heading>
@@ -13,6 +13,7 @@ const Inventory = ({dashes,loadSampleDashes,addDash,deleteDash, updateDash}) => 
                 .filter(key => dashes[key]!=null)
                 .map(key => (    
                 <EditDashForm 
+                    getFreshMetadata={getFreshMetadata}
                     key={key}
                     index={key}
                     dashes={dashes[key]}

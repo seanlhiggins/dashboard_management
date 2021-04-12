@@ -1,12 +1,14 @@
 import React, { useContext, useState, useEffect } from 'react';
+import Header from './Header'
 import Inventory from './Inventory'
 import Order from './Order'
 import sampledashes from '../sample-dashes'
-import DashCard from './DashCard'
-import base from './base.js'
+import DashCard from './DashCard';
+import base from '../base';
 import firebase from 'firebase'
-import { Card, 
+import { Card, Grid,
     ComponentsProvider, 
+    Icon,
     CardContent,
     Heading, 
     Text, 
@@ -14,18 +16,16 @@ import { Card,
     Flex, 
     FlexItem, 
     Divider, 
-    Box, 
-    Icon, Panels,Panel, ListItem,
+    Box, Panel, Panels, ListItem,
     DividerVertical } from '@looker/components'
-import {  ArrowLeft, ArrowRight,ArrowBack,ArrowForward } from '@styled-icons/material'
-import { LogoRings, 
-  Explore, 
-  DashboardGauge, 
-  UserAttributes} from '@looker/icons'
+    import {  ArrowLeft, ArrowRight, ArrowBack, ArrowForward} from '@styled-icons/material'
+    import { LogoRings, 
+      Explore, 
+      DashboardGauge, 
+      UserAttributes} from '@looker/icons'
 import { 
     ExtensionContext, 
      } from '@looker/extension-sdk-react';
-
 
 const App = () => {
     const context = useContext(ExtensionContext)
@@ -54,36 +54,35 @@ const App = () => {
     const [sampleQueries, setQueries] = useState({'101':''})
     const [queryRunning, setQueryRunning] = useState(false)
     const [querySelected, setQuerySelected] = useState('')
-    const mySetDashes = ({ dashes }) => setDashes({ ...dashes });
-    const [open, setOpen] = useState(false)
-    const toggleOpen = () => setExplore(!open)
+
   
-    const panelBoardsTitle = (
+    const title = (
       <>
         <Icon icon={<ArrowLeft />} m="xsmall" />
-        Boards
+        Dashboards
       </>
     )
-        // have to eventually figure out how to sync the state with Firebase. Placeholder from standalone app:
-    // useEffect(() => {
-    //     firebase.database().ref(`profservices/dashes`).on('value', snapshot => {
-    //         if (snapshot.val()) setDashes(snapshot.val())
-    //     })
-    // }, []);
+  
+              // have to eventually figure out how to sync the state with Firebase. Placeholder from standalone app:
+    useEffect(() => {
+        firebase.database().ref(`profservices/dashes`).on('value', snapshot => {
+            if (snapshot.val()) setDashes(snapshot.val())
+        })
+    }, []);
 
-    // useEffect(() => {
-    //     firebase.database().ref(`profservices/dashes`).update(dashes)
-    //  }, [dashes])
+    useEffect(() => {
+        firebase.database().ref(`profservices/dashes`).update(dashes)
+     }, [dashes])
 
-    //  useEffect(() => {
-    //     firebase.database().ref(`profservices/queries`).on('value', snapshot => {
-    //         if (snapshot.val()) setQueries(snapshot.val())
-    //     })
-    // }, []);
+     useEffect(() => {
+        firebase.database().ref(`profservices/queries`).on('value', snapshot => {
+            if (snapshot.val()) setQueries(snapshot.val())
+        })
+    }, []);
 
-    // useEffect(() => {
-    //     firebase.database().ref(`profservices/queries`).update(sampleQueries)
-    //  }, [sampleQueries])
+    useEffect(() => {
+        firebase.database().ref(`profservices/queries`).update(sampleQueries)
+     }, [sampleQueries])
 
     // useEffect(()=> {
     //     //using the ID of each dashboard card, run an async query to Looker's System Activity to get some stats
@@ -132,6 +131,19 @@ const App = () => {
             dashestoadd
         )
 
+    }
+    
+    const getFreshMetadata = (index,dashboardid) => {
+        //just creating a dummy object because I lazily made the function to accept an object and not an ID
+        const dash = {'id':dashboardid}
+        getDashboardSAData(dash)
+        .then((res) => {
+            console.log('139',res)
+            const dashestoadd = {...dashes}
+            dashestoadd[index].runtime = res.runtime
+            console.log('142',dashestoadd)
+            setDashes(dashestoadd)
+        })
     }
 
     const updateDash = (key, updatedDash) => {
@@ -224,8 +236,10 @@ const App = () => {
                 <Heading>Centre of Excellence</Heading>
                 <Divider/>
                     <Flex justifyContent='space-evenly'>
+                    <Panels>
+                        <List iconGutter>
+                        <Panel defaultOpen={true} content={
                         <Box padding='10px' >
-                            <Heading fontWeight="bold">Dashboards</Heading>
                             <Flex flexDirection="column">
                             {Object.keys(dashes)
                             .filter(key =>  dashes[key]!=null) //everytime we Remove, we set state to null, so rerender only those that are not null
@@ -247,43 +261,51 @@ const App = () => {
                             )}
                             </Flex>
                             </Box>
-                            <DividerVertical stretch/>
-                            <Panels>
-                            <List iconGutter>
-                            <Panel
-                                content={'content from Right...'}
-                                direction="right"
-                                title="Right"
-                            >
-                                <ListItem icon={<ArrowBack />}>Right</ListItem>
-                            </Panel>
-                                <Panel content={<Order 
-                                dashes={dashes}
-                                orders={orders}
-                                createNewBoard={createNewBoard}
-                                removeFromOrder={removeFromOrder}
-                                sampleQueries={sampleQueries}
-                                queryRunning={queryRunning}
-                                querySelected={querySelected}
-                                />} direction="left" title="Left">
-                                    <ListItem icon={<ArrowForward />}>Left</ListItem>
-                                </Panel>
-                                <ListItem disabled>Not a panel</ListItem>
-                                <ListItem disabled>Not a panel</ListItem>
-                                </List>
-                            </Panels>                
-                            
-                        <DividerVertical stretch/>
-
-                        <Box padding='10px' >
-                        <Inventory 
-                            addDash={addDash} 
-                            updateDash={updateDash} 
-                            loadSampleDashes={loadSampleDashes} 
-                            deleteDash={deleteDash}
+                        } direction="left" title="Dashboards">
+                            <ListItem icon={<ArrowForward />}  >Dashboards</ListItem>
+                        </Panel>
+                        
+                        
+                        </List>
+                    </Panels>
+                    <Panels>
+                    <Panel content={<Box padding='10px' >
+                            <Order 
                             dashes={dashes}
+                            orders={orders}
+                            createNewBoard={createNewBoard}
+                            removeFromOrder={removeFromOrder}
+                            sampleQueries={sampleQueries}
+                            queryRunning={queryRunning}
+                            querySelected={querySelected}
                             />
                         </Box>
+                        } direction="left" title="Boards">
+                        <ListItem icon={<ArrowForward />} >Boards</ListItem>
+                        </Panel>
+                    </Panels>
+                    <Panels>
+                    <Panel content={<Box padding='10px' >
+                    <Inventory 
+                        getFreshMetadata={getFreshMetadata}
+                        addDash={addDash} 
+                        updateDash={updateDash} 
+                        loadSampleDashes={loadSampleDashes} 
+                        deleteDash={deleteDash}
+                        dashes={dashes}
+                        setRuntimeChecked={setRuntimeChecked}
+                        />
+                    </Box>
+                    } direction="left" title="Management">
+                    <ListItem icon={<ArrowForward />}>Management</ListItem>
+                    </Panel>
+                    </Panels>
+                            <DividerVertical stretch/>
+
+                        
+                        <DividerVertical stretch/>
+
+                        
                     
                 </Flex>
             </ComponentsProvider>

@@ -75,38 +75,41 @@ const DashCard = ({index, details, addToOrder, runQuery}) => {
                         <Flex justifyContent="space-evenly" alignItems="flex-end" id='buttons'>
                           <FlexItem>
                             <Flex>
-                              <FlexItem id='add' margin='medium'><Tooltip content='Add to list under Boards to enable adding to a personal Looker Board'><IconButton icon={ <Add /> }  label='Add To Board'  size="medium" onClick={handleClick}/></Tooltip><Span fontSize='small' >Add</Span>
+                              <FlexItem id='add' margin='small'><Tooltip content='Add to list under Boards to enable adding to a personal Looker Board'><IconButton icon={ <Add /> }  label='Add To Board'  size="medium" onClick={handleClick}/></Tooltip><Span fontSize='small' >Add</Span>
                               </FlexItem>    
                                 
-                                <FlexItem id='comment' margin='medium'><Tooltip content='Add a comment'><Popover content={commentPop}><IconButton icon={ <Comment /> }  label='Add Comment'  size="medium" onClick={addComment}/></Popover></Tooltip><Span fontSize='small' >Comment</Span>
-                                </FlexItem>
-     
-                                {showExplore ? 
-                                <FlexItem><FlexItem id='run' margin='medium'><Tooltip content='Run Sample Query, output under Board section'><IconButton  icon={<Explore />} size='medium' label="Run Query" onClick={() => runQuery(id)} /></Tooltip><Span fontSize='small' >Run</Span></FlexItem></FlexItem>
-                                  : <Span></Span>}
-                                <FlexItem id='metacard'>
-                                  <Card ref={hoverRef} raised>
-                                    <Paragraph margin='medium' fontSize="xsmall" color="subdued">
-                                      Metadata
-                                    </Paragraph>
-                                    <Flex justifyContent='space-between' id='metadata'>
-                                      <FlexItem id='runtime' padding='5px'>{showRuntime ? 
-                                        <Flex>
-                                          <Tooltip content='Average Runtime as calculated by System Activity'><Icon icon={<DashboardGauge/>} label="Average Runtime" color='#959a9d' size='xsmall' />
-                                          </Tooltip>
-                                          <Span fontSize='xsmall' color='subdued'  padding='2px' textAlign='centre'>{Math.round((runtime) * 10) / 10}s
-                                          </Span> 
-                                        </Flex>: <Span></Span>}
-                                      </FlexItem>
-                                      <FlexItem id='owner' padding='5px'>{showOwner ? <Flex><Tooltip content='Owner as specified by CoE Team'><Icon icon={<UserAttributes />} label="Owner" color='#959a9d' size='xsmall' /></Tooltip><Span fontSize='xsmall' color='subdued'  padding='2px' textAlign='centre'>@{owner}</Span> </Flex>: <Span></Span>}</FlexItem>
-                                      <FlexItem id='action'>
-                                          <Popover content={content} hoverDisclosureRef={hoverRef}>
-                                            <IconButton icon={<MoreVert />} label="Actions" />
-                                          </Popover>
-                                      </FlexItem>
-                                    </Flex>
-                                  </Card>
-                                </FlexItem>
+                              <FlexItem id='comment' margin='small'><Tooltip content='Add a comment'><Popover content={commentPop}><IconButton icon={ <Comment /> }  label='Add Comment'  size="medium" onClick={addComment}/></Popover></Tooltip><Span fontSize='small' >Comment</Span>
+                              </FlexItem>
+    
+                              {showExplore ? 
+                              <FlexItem><FlexItem id='run' margin='small'><Tooltip content='Run Sample Query, output under Board section'><IconButton  icon={<Explore />} size='medium' label="Run Query" onClick={() => runQuery(id)} /></Tooltip><Span fontSize='small' >Run</Span></FlexItem></FlexItem>
+                                : <Span></Span>}
+                            </Flex>
+                            <Flex>
+                              <FlexItem id='metacard'>
+                                <Card ref={hoverRef} raised>
+                                  <Flex justifyContent='space-between' id='metadata'>
+                                    <FlexItem id='metadata'><Span padding='2px' justifyContent='centre' fontSize="xsmall" color="subdued">
+                                      Metadata:
+                                    </Span>
+                                    </FlexItem>
+                                    <FlexItem id='runtime' padding='2px'>{showRuntime ? 
+                                      <Flex>
+                                        <Tooltip content='Average Runtime as calculated by System Activity'><Icon icon={<DashboardGauge/>} label="Average Runtime" color='#959a9d' size='xsmall' />
+                                        </Tooltip>
+                                        <Span fontSize='xsmall' color='subdued'  padding='3px' textAlign='centre'>{Math.round((runtime) * 10) / 10}s
+                                        </Span> 
+                                      </Flex>: <Span></Span>}
+                                    </FlexItem>
+                                    <FlexItem id='owner' padding='3px'>{showOwner ? <Flex><Tooltip content='Owner as specified by CoE Team'><Icon icon={<UserAttributes />} label="Owner" color='#959a9d' size='xsmall' /></Tooltip><Span fontSize='xsmall' color='subdued'  padding='2px' textAlign='centre'>@{owner}</Span> </Flex>: <Span></Span>}</FlexItem>
+                                    <FlexItem id='action'>
+                                        <Popover content={content} hoverDisclosureRef={hoverRef}>
+                                          <IconButton icon={<MoreVert />} label="Actions" />
+                                        </Popover>
+                                    </FlexItem>
+                                  </Flex>
+                                </Card>
+                              </FlexItem>
                             </Flex>
                         </FlexItem>
                     </Flex>
