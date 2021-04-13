@@ -29,19 +29,17 @@ import { LogoRings,
   Explore, 
   DashboardGauge, 
   UserAttributes} from '@looker/icons'
-const DashCard = ({index, details, addToOrder, runQuery}) => {
+const DashCard = ({index, details, addToOrder, runQuery, addComment}) => {
 
     const handleClick = () => {
         addToOrder(index)
     }   
 
-    const addComment = () => {
-      console.log('commented')
-    }
+    
     const submitComment = (e) =>{
       e.preventDefault()
       const comment = commentRef.current.value
-      console.log(comment)
+      addComment(index,comment)
     }
     const { image, name, runtime, desc, id, status, showRuntime, showExplore, showOwner, owner } = details;
     const isAvailable = status === 'available';
@@ -88,7 +86,7 @@ const DashCard = ({index, details, addToOrder, runQuery}) => {
                                   <Tooltip content='Add a comment'>
                                     <Popover content={commentPop}>
                                     <Badge badgeContent={4} color="primary">
-                                        <IconButton icon={ <Comment /> }  label='Add Comment'  size="medium" onClick={addComment}/>
+                                        <IconButton icon={ <Comment /> }  label='Add Comment'  size="medium"/>
                                       </Badge>
                                     </Popover>
                                   </Tooltip>

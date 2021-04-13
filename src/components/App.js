@@ -147,7 +147,20 @@ const App = () => {
             setDashes(dashestoadd)
         })
     }
-
+    async function getUser()  {
+    const response =  await sdk.ok(sdk.me('display_name, id'))
+    return response
+}
+    const addComment = (index,comment) => {
+        var commentDashes = {...dashes}
+        getUser().then((userId) => {
+            // get the current user ID and whatever comment they make, timestamp it and add it to a new comments object in state
+            const display_name = userId['display_name']
+            commentDashes[index].comments[`${display_name} - ${Date.now()}`] = comment
+            setDashes(commentDashes)
+        })
+        
+      }
     const updateDash = (key, updatedDash) => {
         // create shallow copy of dash state object, use to set new state
         const dash = {...dashes}
@@ -257,6 +270,7 @@ const App = () => {
                                 details={dashes[key]}
                                 addToOrder={addToOrder}
                                 runQuery={runQuery}
+                                addComment={addComment}
                                 />
                                 </Flex>
                                 <Divider/>
@@ -313,12 +327,12 @@ const App = () => {
                     
                     <Panels>
                         <Panel content={
-                        <Box height='100%' width='100%' >
-                        <DashboardDisplay
-                            dashboard={'67'}
-                            setIsLoading={setIsLoading}
-                        />
-                        </Box>} direction='left' title='Embed'>                    
+                            <Box height='100%' width='100%' >
+                                <DashboardDisplay
+                                    dashboard={'67'}
+                                    setIsLoading={setIsLoading}
+                                />
+                            </Box>} direction='left' title='Embed'>                    
                             <ListItem icon={<ArrowForward />}>Embed</ListItem>
                         </Panel>
                     </Panels>
