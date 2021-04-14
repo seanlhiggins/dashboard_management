@@ -29,7 +29,36 @@ import { LogoRings,
   Explore, 
   DashboardGauge, 
   UserAttributes} from '@looker/icons'
-const DashCard = ({index, details, addToOrder, runQuery, addComment}) => {
+  
+  const AvatarIcon = (props) => {
+    return (
+        <img display='inline' src={props.src} style={{borderRadius: '50%'}} width='50px' height='50px'/>
+    )
+}
+  const CommentCard = ({comments, index}) => {
+    console.log('message',comments)
+    return (
+      <Box width="30rem" height='5rem'>
+        <Card key={comments[index]}
+      // style={{float: comments[index].id % 2 == 0 ? 'right' : 'left'}}
+            >
+          <CardContent>
+            <Flex justifyContent='space-between'>
+              {comments.avatar && <AvatarIcon src={comments.avatar}/>}
+              <FlexItem><Heading display='inline' as='h6'>{comments.author}</Heading></FlexItem>
+              <FlexItem><Heading as='h6'>{comments.timestamp}</Heading></FlexItem>
+              <FlexItem><Paragraph>
+                        {comments.msg}
+                        </Paragraph>
+                        </FlexItem>
+            </Flex>
+          </CardContent>
+        </Card>
+        </Box>
+    )
+}
+
+const DashCard = ({index, details, addToOrder, runQuery, addComment, me}) => {
 
     const handleClick = () => {
         addToOrder(index)
@@ -39,10 +68,27 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment}) => {
     const submitComment = (e) =>{
       e.preventDefault()
       const comment = commentRef.current.value
-      addComment(index,comment)
+      let newComment = {
+        id: Date.now(),
+        author: me.display_name,
+        timestamp: new Date().toDateString(),
+        msg: comment,
+        avatar: me.avatar_url
     }
-    const { image, name, runtime, desc, id, status, showRuntime, showExplore, showOwner, owner } = details;
+      addComment(index,newComment)
+    }
+    const { image, name, runtime, desc, id, status, showRuntime, showExplore, showOwner, owner,  comments} = details;
     const isAvailable = status === 'available';
+    let commentsLength = 0
+    let commentsParsed =''
+    let commentsObj = {};
+    if(comments){ 
+      commentsLength = Object.keys(comments).length;
+      commentsParsed = JSON.stringify(comments)
+      commentsObj=comments
+    }
+   
+
     const isOpen = true
     const icon = isAvailable ? <LogoRings /> : 'X';
     const hoverRef = React.useRef()
@@ -52,12 +98,20 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment}) => {
                                                                           <FieldText label="Overview" />
                                                                           <FieldText label="Description" />
                                                                         </Fieldset></PopoverContent>)}>Report a Problem</Button></PopoverContent>
-    const commentPop = <PopoverContent p="large"><Form>  <FieldText label="Comment" ref={commentRef} name="Comment" placeholder="What's your beef?" />
-    <Button onClick={submitComment}>Submit</Button></Form></PopoverContent>
+    const commentPop = <PopoverContent p="large">
+                          {Object.keys(commentsObj).map(key => 
+                        <CommentCard comments={commentsObj[key]} key={key} index={key}></CommentCard>                    
+                        )}                   
+                          <Form>  
+                            <FieldText label="Comment" ref={commentRef} name="Comment" placeholder="What's your beef?" />
+                            <Button onClick={submitComment}>Submit</Button>
+                          </Form>
+                        </PopoverContent>
     return (
         <ComponentsProvider globalStyle={false}>
           <Box padding='4px'>
             <SpaceVertical>
+            
               <Flex justifyContent='space-between' margin='medium' padding='5px'>
                   
                     <Card raised margin='medium'>
@@ -85,7 +139,7 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment}) => {
                               <FlexItem id='comment' margin='small'>
                                   <Tooltip content='Add a comment'>
                                     <Popover content={commentPop}>
-                                    <Badge badgeContent={4} color="primary">
+                                    <Badge badgeContent={commentsLength} color="primary">
                                         <IconButton icon={ <Comment /> }  label='Add Comment'  size="medium"/>
                                       </Badge>
                                     </Popover>

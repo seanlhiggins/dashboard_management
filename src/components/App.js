@@ -56,6 +56,7 @@ const App = () => {
     const [queryRunning, setQueryRunning] = useState(false)
     const [querySelected, setQuerySelected] = useState('')
     const [isLoading, setIsLoading] = useState(false)
+    const [me, setMe] = useState(undefined)
 
   
     const title = (
@@ -64,7 +65,20 @@ const App = () => {
         Dashboards
       </>
     )
-  
+        
+    // set the current user so we can look at their ID, avatar etc for comments
+    useEffect (() => {
+        async function getUser()  {
+            await sdk.ok(
+                    sdk.me())
+                    .then((r) => {
+                        console.log(r)
+                        setMe(r)
+                    })
+                }
+        
+        getUser()
+    },[])
               // have to eventually figure out how to sync the state with Firebase. Placeholder from standalone app:
     useEffect(() => {
         firebase.database().ref(`profservices/dashes`).on('value', snapshot => {
@@ -248,6 +262,7 @@ const App = () => {
     return (
 
         <ComponentsProvider globalStyle={false}>
+
                 <Heading>Centre of Excellence</Heading>
                 <Divider/>
                     <Flex justifyContent='space-evenly'>
@@ -271,6 +286,7 @@ const App = () => {
                                 addToOrder={addToOrder}
                                 runQuery={runQuery}
                                 addComment={addComment}
+                                me={me}
                                 />
                                 </Flex>
                                 <Divider/>
