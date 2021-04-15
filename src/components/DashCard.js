@@ -58,12 +58,16 @@ import { LogoRings,
     )
 }
 
-const DashCard = ({index, details, addToOrder, runQuery, addComment, me}) => {
+const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateEmbedDashboard}) => {
 
     const handleClick = () => {
         addToOrder(index)
     }   
 
+    const handleUpdateEmbed = (id) => {
+      console.log('updating68',id)
+      updateEmbedDashboard(id)
+    }
     
     const submitComment = (e) =>{
       e.preventDefault()
@@ -114,9 +118,9 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me}) => {
             
               <Flex justifyContent='space-between'  padding='5px'>
                   
-                    <Card raised margin='6px' onClick={console.log(id)}>
-                        <CardMedia image={image} onClick={console.log(id)} title={name} alt={name}/>
-                        <CardContent onClick={console.log(id)}>
+                    <Card raised margin='6px' onClick={() =>handleUpdateEmbed(id)}>
+                        <CardMedia image={image} title={name} alt={name}/>
+                        <CardContent >
                           <Flex>
                             <FlexItem>
                               <Span fontSize='small'>{name}</Span>

@@ -57,7 +57,7 @@ const App = () => {
     const [querySelected, setQuerySelected] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [me, setMe] = useState(undefined)
-
+    const [embedDashboard, setEmbedDashboard] = useState('451')
   
     // const title = (
     //   <>
@@ -72,7 +72,6 @@ const App = () => {
             await sdk.ok(
                     sdk.me())
                     .then((r) => {
-                        console.log(r)
                         setMe(r)
                     })
                 }
@@ -154,10 +153,8 @@ const App = () => {
         const dash = {'id':dashboardid}
         getDashboardSAData(dash)
         .then((res) => {
-            console.log('139',res)
             const dashestoadd = {...dashes}
             dashestoadd[index].runtime = res.runtime
-            console.log('142',dashestoadd)
             setDashes(dashestoadd)
         })
     }
@@ -223,7 +220,6 @@ const App = () => {
     const runQuery = (id) => {
         //DONE: get a sample query from the given dashboard ID and display the results of the vis in the middle console
         setQuerySelected('')
-        console.log('Running Query',id)
         
             //tell Extension that a query is now running
         setQueryRunning(true)
@@ -246,16 +242,20 @@ const App = () => {
                         .then((res) => { 
                             setQueryRunning(false)
                             console.log('Running Fresh Query')
-                            console.log('result of query',res)
                             
                             const queriesRef = {...sampleQueries}
                             queriesRef[dashboardQueryId] = JSON.stringify(res)
-                            console.log('queriesRef 189', queriesRef)
                             setQueries(queriesRef)
                             return
                         })
                     }   
                 })
+    }
+
+    const updateEmbedDashboard = (dashboardId) => {
+        console.log('updatingdashboard', dashboardId)
+        const embedDashboardUpdate = dashboardId
+        setEmbedDashboard(embedDashboardUpdate)
     }
 
     return (
@@ -285,6 +285,7 @@ const App = () => {
                                                 runQuery={runQuery}
                                                 addComment={addComment}
                                                 me={me}
+                                                updateEmbedDashboard={updateEmbedDashboard}
                                                 />
                                             </Flex>
                                             <Divider/>
@@ -344,7 +345,7 @@ const App = () => {
 
                 <Box height='100%' width='100%' >
                     <DashboardDisplay
-                        dashboard={'67'}
+                        dashboardId={embedDashboard}
                         setIsLoading={setIsLoading}
                     />
                 </Box>
