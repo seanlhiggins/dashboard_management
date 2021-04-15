@@ -179,7 +179,6 @@ const App = () => {
         // create shallow copy of dash state object, use to set new state
         const dash = {...dashes}
         dash[key] = updatedDash;
-
         setDashes( dash )
     }
 
@@ -266,103 +265,88 @@ const App = () => {
                 <Heading>Centre of Excellence</Heading>
                 <Divider/>
                     <Flex justifyContent='space-evenly'>
-                    {/* <Grid columns={3}> */}
-                    {/* <GridPlaceholder> */}
+
                         <Panels>
-                        <List iconGutter>
-                        <Panel defaultOpen={true} content={
-                        <Box padding='10px' >
-                            <Flex flexDirection="column">
-                            {Object.keys(dashes)
-                            .filter(key =>  dashes[key]!=null) //everytime we Remove, we set state to null, so rerender only those that are not null
-                            .map(key =>
-                                
-                            <FlexItem key={key}>
-                                <Flex>
-                                <DashCard
-                                key={key} // each element in a list or anything that's a child must have it's own unique key identifier so React knows what to re-render efficiently
-                                index={key} // you can't use the key as a prop downstream, so if you need that ...key... you need to assign it to some other prop name
-                                details={dashes[key]}
-                                addToOrder={addToOrder}
-                                runQuery={runQuery}
-                                addComment={addComment}
-                                me={me}
-                                />
-                                </Flex>
-                                <Divider/>
+                            <List iconGutter>
+                                <Panel defaultOpen={true} content={
+                                    <Box padding='10px' backgroundColor='white'>
+                                        <Flex flexDirection="column">
+                                        {Object.keys(dashes)
+                                        .filter(key =>  dashes[key]!=null) //everytime we Remove, we set state to null, so rerender only those that are not null
+                                        .map(key =>
+                                            
+                                            <FlexItem key={key}>
+                                                <Flex>
+                                                    <DashCard
+                                                    key={key} // each element in a list or anything that's a child must have it's own unique key identifier so React knows what to re-render efficiently
+                                                    index={key} // you can't use the key as a prop downstream, so if you need that ...key... you need to assign it to some other prop name
+                                                    details={dashes[key]}
+                                                    addToOrder={addToOrder}
+                                                    runQuery={runQuery}
+                                                    addComment={addComment}
+                                                    me={me}
+                                                    />
+                                                </Flex>
+                                                <Divider/>
+                                            </FlexItem>
+                                        )}
+                                        </Flex>
+                                    </Box>
+                                    } direction="left" title="Dashboards">
+                                    <ListItem icon={<ArrowForward />}  >Dashboards</ListItem>
+                                    <DividerVertical stretch/>
+                                </Panel>
+                            </List>
+                    </Panels>
 
-                            </FlexItem>
-                            )}
-                            </Flex>
-                            </Box>
-                        } direction="left" title="Dashboards">
-                            <ListItem icon={<ArrowForward />}  >Dashboards</ListItem>
-                        </Panel>
-                        
-                        
-                        </List>
-                    </Panels>
-                    {/* </GridPlaceholder> */}
-                    {/* <GridPlaceholder width='10%'> */}
-                    <Panels>
-                    <Panel content={<Box padding='10px' height='100%' >
-                            <Order 
-                            dashes={dashes}
-                            orders={orders}
-                            createNewBoard={createNewBoard}
-                            removeFromOrder={removeFromOrder}
-                            sampleQueries={sampleQueries}
-                            queryRunning={queryRunning}
-                            querySelected={querySelected}
-                            />
-                            
-                        </Box>
-                        } direction="left" title="Boards">
-                        <ListItem icon={<ArrowForward />} >Boards</ListItem>
-                        </Panel>
-                    </Panels>
-                    {/* </GridPlaceholder> */}
-                    {/* <GridPlaceholder width='10%'> */}
-
-                    <Panels >
-                    <Panel content={<Box padding='10px' >
-                    <Inventory 
-                        getFreshMetadata={getFreshMetadata}
-                        addDash={addDash} 
-                        updateDash={updateDash} 
-                        loadSampleDashes={loadSampleDashes} 
-                        deleteDash={deleteDash}
-                        dashes={dashes}
-                        setRuntimeChecked={setRuntimeChecked}
-                        />
-                    </Box>
-                    } direction="left" title="Management">
-                    <ListItem icon={<ArrowForward />}>Management</ListItem>
-                    </Panel>
-                    </Panels>
-                    
                     <Panels>
                         <Panel content={
-                            <Box height='100%' width='100%' >
-                                <DashboardDisplay
-                                    dashboard={'67'}
-                                    setIsLoading={setIsLoading}
+                            <Box padding='10px' height='100%' backgroundColor='white'>
+                                <Order 
+                                dashes={dashes}
+                                orders={orders}
+                                createNewBoard={createNewBoard}
+                                removeFromOrder={removeFromOrder}
+                                sampleQueries={sampleQueries}
+                                queryRunning={queryRunning}
+                                querySelected={querySelected}
                                 />
-                            </Box>} direction='left' title='Embed'>                    
-                            <ListItem icon={<ArrowForward />}>Embed</ListItem>
+                            
+                            </Box>
+                        } direction="left" title="Boards">
+                            <ListItem icon={<ArrowForward />} >Boards</ListItem>
                         </Panel>
                     </Panels>
-
-                        
-                        <DividerVertical stretch/>
-
-                        
                     
+
+                    <Panels >
+                        <Panel content={
+                            <Box padding='10px' backgroundColor='white'>
+                                <Inventory 
+                                    getFreshMetadata={getFreshMetadata}
+                                    addDash={addDash} 
+                                    updateDash={updateDash} 
+                                    loadSampleDashes={loadSampleDashes} 
+                                    deleteDash={deleteDash}
+                                    dashes={dashes}
+                                    setRuntimeChecked={setRuntimeChecked}
+                                    />
+                            </Box>
+                            } direction="left" title="Management">
+                            <ListItem icon={<ArrowForward />}>Management</ListItem>
+                        </Panel>
+                    </Panels>
+                    <DividerVertical stretch/>
                 </Flex>
+
+                <Box height='100%' width='100%' >
+                    <DashboardDisplay
+                        dashboard={'67'}
+                        setIsLoading={setIsLoading}
+                    />
+                </Box>
             </ComponentsProvider>
-                
     )
 }
-
 
 export default App;

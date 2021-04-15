@@ -114,9 +114,9 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me}) => {
             
               <Flex justifyContent='space-between' margin='medium' padding='5px'>
                   
-                    <Card raised margin='medium'>
-                        <CardMedia image={image} title={name} alt={name}/>
-                        <CardContent>
+                    <Card raised margin='medium' onClick={console.log(id)}>
+                        <CardMedia image={image} onClick={console.log(id)} title={name} alt={name}/>
+                        <CardContent onClick={console.log(id)}>
                           <Flex>
                             <FlexItem>
                               <Span fontSize='small'>{name}</Span>
