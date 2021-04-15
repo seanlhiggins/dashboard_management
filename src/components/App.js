@@ -267,35 +267,35 @@ const App = () => {
                     <Flex justifyContent='space-evenly'>
 
                         <Panels>
-                                <Panel defaultOpen={true} content={
-                                    <Box margin='medium' bg="keyAccent"
-                                    border="2px solid black"
-                                    borderRadius="4px" backgroundColor='white'>
-                                        <Flex flexDirection="column">
-                                        {Object.keys(dashes)
-                                        .filter(key =>  dashes[key]!=null) //everytime we Remove, we set state to null, so rerender only those that are not null
-                                        .map(key =>
-                                            <FlexItem key={key}>
-                                                <Flex>
-                                                    <DashCard
-                                                    key={key} // each element in a list or anything that's a child must have it's own unique key identifier so React knows what to re-render efficiently
-                                                    index={key} // you can't use the key as a prop downstream, so if you need that ...key... you need to assign it to some other prop name
-                                                    details={dashes[key]}
-                                                    addToOrder={addToOrder}
-                                                    runQuery={runQuery}
-                                                    addComment={addComment}
-                                                    me={me}
-                                                    />
-                                                </Flex>
-                                                <Divider/>
-                                            </FlexItem>
-                                        )}
-                                        </Flex>
-                                    </Box>
-                                    } direction="left" title="Dashboards">
-                                    <ListItem icon={<ArrowForward />} >Dashboards</ListItem>
-                                    <DividerVertical stretch/>
-                                </Panel>
+                            <Panel defaultOpen={true} content={
+                                <Box margin='medium' bg="keyAccent"
+                                border="2px solid black"
+                                borderRadius="4px" backgroundColor='white'>
+                                    <Flex flexDirection="column">
+                                    {Object.keys(dashes)
+                                    .filter(key =>  dashes[key]!=null) //everytime we Remove, we set state to null, so rerender only those that are not null
+                                    .map(key =>
+                                        <FlexItem key={key}>
+                                            <Flex>
+                                                <DashCard
+                                                key={key} // each element in a list or anything that's a child must have it's own unique key identifier so React knows what to re-render efficiently
+                                                index={key} // you can't use the key as a prop downstream, so if you need that ...key... you need to assign it to some other prop name
+                                                details={dashes[key]}
+                                                addToOrder={addToOrder}
+                                                runQuery={runQuery}
+                                                addComment={addComment}
+                                                me={me}
+                                                />
+                                            </Flex>
+                                            <Divider/>
+                                        </FlexItem>
+                                    )}
+                                    </Flex>
+                                </Box>
+                                } direction="left" title="Dashboards">
+                                <ListItem icon={<ArrowForward />} >Dashboards</ListItem>
+
+                            </Panel>
                     </Panels>
 
                     <Panels>

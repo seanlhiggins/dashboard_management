@@ -11,6 +11,7 @@ import { Button,
     Paragraph, 
     Heading, 
     Tooltip,
+    Truncate,
     Spinner } from '@looker/components'
 import { Delete} from '@styled-icons/material'
 
@@ -74,7 +75,7 @@ const Order = ({dashes, orders, createNewBoard, sampleQueries,removeFromOrder, q
                         <UnorderedList>
                     <Span>Sample Query</Span>
                         <Paragraph>Output of sample query from dashboards.</Paragraph>
-                        {queryRunning ? <Spinner /> :<Paragraph>{JSON.stringify(queryToRender)}</Paragraph>} 
+                        {queryRunning ? <Spinner /> :<Truncate>{JSON.stringify(queryToRender)}</Truncate>} 
                     </UnorderedList>
 
             </ComponentsProvider>
