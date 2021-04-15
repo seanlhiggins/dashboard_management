@@ -109,12 +109,12 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me}) => {
                         </PopoverContent>
     return (
         <ComponentsProvider globalStyle={false}>
-          <Box padding='4px'>
+          <Box margin='4px'>
             <SpaceVertical>
             
-              <Flex justifyContent='space-between' margin='medium' padding='5px'>
+              <Flex justifyContent='space-between'  padding='5px'>
                   
-                    <Card raised margin='medium' onClick={console.log(id)}>
+                    <Card raised margin='6px' onClick={console.log(id)}>
                         <CardMedia image={image} onClick={console.log(id)} title={name} alt={name}/>
                         <CardContent onClick={console.log(id)}>
                           <Flex>

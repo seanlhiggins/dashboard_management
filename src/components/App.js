@@ -59,12 +59,12 @@ const App = () => {
     const [me, setMe] = useState(undefined)
 
   
-    const title = (
-      <>
-        <Icon icon={<ArrowLeft />} m="xsmall" />
-        Dashboards
-      </>
-    )
+    // const title = (
+    //   <>
+    //     <Icon icon={<ArrowLeft />} m="xsmall" />
+    //     Dashboards
+    //   </>
+    // )
         
     // set the current user so we can look at their ID, avatar etc for comments
     useEffect (() => {
@@ -267,14 +267,14 @@ const App = () => {
                     <Flex justifyContent='space-evenly'>
 
                         <Panels>
-                            <List iconGutter>
                                 <Panel defaultOpen={true} content={
-                                    <Box padding='10px' backgroundColor='white'>
+                                    <Box margin='medium' bg="keyAccent"
+                                    border="2px solid black"
+                                    borderRadius="4px" backgroundColor='white'>
                                         <Flex flexDirection="column">
                                         {Object.keys(dashes)
                                         .filter(key =>  dashes[key]!=null) //everytime we Remove, we set state to null, so rerender only those that are not null
                                         .map(key =>
-                                            
                                             <FlexItem key={key}>
                                                 <Flex>
                                                     <DashCard
@@ -293,15 +293,16 @@ const App = () => {
                                         </Flex>
                                     </Box>
                                     } direction="left" title="Dashboards">
-                                    <ListItem icon={<ArrowForward />}  >Dashboards</ListItem>
+                                    <ListItem icon={<ArrowForward />} >Dashboards</ListItem>
                                     <DividerVertical stretch/>
                                 </Panel>
-                            </List>
                     </Panels>
 
                     <Panels>
                         <Panel content={
-                            <Box padding='10px' height='100%' backgroundColor='white'>
+                            <Box padding='10px'   bg="keyAccent"
+                            border="2px solid black"
+                            borderRadius="4px" backgroundColor='white'>
                                 <Order 
                                 dashes={dashes}
                                 orders={orders}
@@ -321,7 +322,9 @@ const App = () => {
 
                     <Panels >
                         <Panel content={
-                            <Box padding='10px' backgroundColor='white'>
+                            <Box padding='10px'   bg="keyAccent"
+                            border="2px solid black"
+                            borderRadius="4px" backgroundColor='white'>
                                 <Inventory 
                                     getFreshMetadata={getFreshMetadata}
                                     addDash={addDash} 
