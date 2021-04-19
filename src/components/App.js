@@ -345,7 +345,7 @@ const App = () => {
 
                 <Box height='100%' width='100%' >
                     <DashboardDisplay
-                        dashboardId={embedDashboard}
+                        dashboard={embedDashboard}
                         setIsLoading={setIsLoading}
                     />
                 </Box>

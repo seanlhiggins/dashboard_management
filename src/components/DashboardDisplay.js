@@ -9,9 +9,7 @@ import { EmbedContainer } from './EmbedContainer'
 const DashboardDisplay = (props) => {
     const extensionContext = useContext(ExtensionContext)
     const [dashboard, setDashboard] = useState(undefined)
-    console.log(props.dashboardId)
-    const dashboardId = props.dashboardId.toString()
-    console.log(dashboardId)
+    const dashboardId = props.dashboard.toString()
     const setupDashboard = (d) => {
         props.setIsLoading(false)
         setDashboard(d)
@@ -20,11 +18,10 @@ const DashboardDisplay = (props) => {
     const embedCtrRef = useCallback((el) => {
         const hostUrl = extensionContext?.extensionSDK?.lookerHostData?.hostUrl
         if (el && hostUrl) {
-            console.log('el')
             props.setIsLoading(true)
             el.innerHTML = ''
             LookerEmbedSDK.init(hostUrl)
-            const dash = LookerEmbedSDK.createDashboardWithId(dashboardId)
+            const dash = LookerEmbedSDK.createDashboardWithId(451)
             .withNext()
             .withFrameBorder()
             dash.appendTo(el)
@@ -42,7 +39,6 @@ const DashboardDisplay = (props) => {
         <Box p='xlarge'>
             {props.dashboard && 
                 <>
-                    <Heading as='h2'>Dashboard</Heading>
                     <EmbedContainer ref={embedCtrRef}/>
                 </>
             }
