@@ -9,8 +9,9 @@
 
 TODOs:
 - Get more interesting Metadata
-- Clean up the show/hide panels
-- Create an embedded iframe to see the dashboards in the same view
+- ~Clean up the show/hide panels~
+- ~Create an embedded iframe to see the dashboards in the same view~
 - Allow users to run sample queries that retrieve PNGs instead of just JSON
-- Track comments alongside dashboards within Firebase
+- ~Track comments alongside dashboards within Firebase~
+- Set comments and metadata inside Looker's DB
 - Link the Report a Probem to some sort of ticketing system
