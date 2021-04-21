@@ -21,7 +21,7 @@ const DashboardDisplay = (props) => {
             props.setIsLoading(true)
             el.innerHTML = ''
             LookerEmbedSDK.init(hostUrl)
-            const dash = LookerEmbedSDK.createDashboardWithId(props.dashboardId)
+            const dash = LookerEmbedSDK.createDashboardWithId(dashboardId)
             .withNext()
             .withFrameBorder()
             dash.appendTo(el)
