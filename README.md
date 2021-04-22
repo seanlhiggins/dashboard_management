@@ -19,3 +19,4 @@ TODOs:
 - Link the Report a Probem to some sort of ticketing system
 - Conditionally hiding the management portal from non-Admins
 - Add global filters to a config panel
+- Convert the result of sample query to a data table

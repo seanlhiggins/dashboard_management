@@ -28,7 +28,9 @@ import {  Add, MoreVert, Comment } from '@styled-icons/material'
 import { LogoRings, 
   Explore, 
   DashboardGauge, 
-  UserAttributes} from '@looker/icons'
+  UserAttributes, 
+  CalendarHour,
+  Notes} from '@looker/icons'
   
   const AvatarIcon = (props) => {
     return (
@@ -38,20 +40,34 @@ import { LogoRings,
   const CommentCard = ({comments, index}) => {
     console.log('message',comments)
     return (
-      <Box width="30rem" height='5rem'>
+      <Box width="30rem" height='6rem'>
         <Card key={comments[index]}
       // style={{float: comments[index].id % 2 == 0 ? 'right' : 'left'}}
             >
           <CardContent>
-            <Flex justifyContent='space-between'>
-              {comments.avatar && <AvatarIcon src={comments.avatar}/>}
-              <FlexItem><Heading display='inline' as='h6'>{comments.author}</Heading></FlexItem>
-              <FlexItem><Heading as='h6'>{comments.timestamp}</Heading></FlexItem>
-              <FlexItem><Paragraph>
-                        {comments.msg}
-                        </Paragraph>
+
+
+                  <Flex >
+                    <FlexItem>{comments.avatar && <AvatarIcon size='xsmall' margin='medium' src={comments.avatar}/>}</FlexItem>
+                    <FlexItem>
+                      <Flex flexDirection='column' margin='m'>
+                        <FlexItem>
+                          <Flex>
+                            <Icon color="subdued" size='xxsmall' icon={<UserAttributes />}/><Span color="subdued" fontSize='xxsmall'>{comments.author}</Span>
+                            <Icon color="subdued" size='xxsmall' icon={<CalendarHour />}/>  <Span color="subdued" fontSize='xxsmall'>{comments.timestamp}</Span>
+                          </Flex>
                         </FlexItem>
-            </Flex>
+
+
+                          <FlexItem><Flex><Icon size='xxsmall' icon={<Notes />}/>
+                              <Span truncate fontSize='small'>
+                              {comments.msg}
+                              </Span>
+                          </Flex>
+                          </FlexItem>
+                      </Flex>
+                    </FlexItem>
+                  </Flex>
           </CardContent>
         </Card>
         </Box>
