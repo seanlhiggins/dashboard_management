@@ -15,15 +15,19 @@ import { Card, Grid,
     Text, 
     List, 
     Flex, 
-    FlexItem, 
+    FlexItem,
+    Tooltip,  
     Divider, 
     Box, Panel, Panels, ListItem, GridPlaceholder,
     DividerVertical } from '@looker/components'
-    import {  ArrowLeft, ArrowRight, ArrowBack, ArrowForward} from '@styled-icons/material'
-    import { LogoRings, 
-      Explore, 
-      DashboardGauge, 
-      UserAttributes} from '@looker/icons'
+import {  ArrowLeft, ArrowRight, ArrowBack, ArrowForward} from '@styled-icons/material'
+import { LogoRings, 
+    Explore, 
+    DashboardGauge, 
+    UserAttributes,
+    Beaker,
+    BrowseTable,
+    Public} from '@looker/icons'
 import { 
     ExtensionContext, 
      } from '@looker/extension-sdk-react';
@@ -99,18 +103,18 @@ const App = () => {
         firebase.database().ref(`profservices/queries`).update(sampleQueries)
      }, [sampleQueries])
 
-    // useEffect(()=> {
-    //     //using the ID of each dashboard card, run an async query to Looker's System Activity to get some stats
-    //     const dashboards = {...dashes}
-    //     console.log(dashboards)
-    //     var dashesWithRunTimeReturn={};
-    //     Object.keys(dashboards).map(key => {
-    //     dashesWithRunTimeReturn = getDashboardSAData(dashboards,key)
-    //     })
-    //     console.log(dashesWithRunTimeReturn)
-    //     // IMPORTANT: never setDashes without a dependency array, or each time you re-render, it'll cause an infinite loop.    
-    //     setDashes(dashesWithRunTimeReturn)
-    // },[])  
+    useEffect(()=> {
+        //using the ID of each dashboard card, run an async query to Looker's System Activity to get some stats
+        const dashboards = {...dashes}
+        console.log(dashboards)
+        var dashesWithRunTimeReturn={};
+        Object.keys(dashboards).map(key => {
+        dashesWithRunTimeReturn = getDashboardSAData(dashboards,key)
+        })
+        console.log(dashesWithRunTimeReturn)
+        // IMPORTANT: never setDashes without a dependency array, or each time you re-render, it'll cause an infinite loop.    
+        setDashes(dashesWithRunTimeReturn)
+    },[])  
 
     
     async function getDashboardSAData(dashboard) {
@@ -267,7 +271,33 @@ const App = () => {
 
         <ComponentsProvider globalStyle={false}>
 
-                <Heading>Centre of Excellence</Heading>
+                <Flex justifyContent='space-between'>
+                    <FlexItem><Heading margin='3px'>Centre of Excellence</Heading></FlexItem>
+                    <FlexItem>
+                        <Flex justifyContent='end'>
+                            <FlexItem margin='5px'>
+                                <Tooltip content="These don't do anything. Go Away.">
+                                    <Icon icon={<Beaker />} color="inform" size="small" />
+                                </Tooltip>
+                            </FlexItem>
+                            <FlexItem margin='5px'>
+                                <Tooltip content="Look, pal. I dunno what you were expecting...">
+                                    <Icon icon={<LogoRings />} color="inform" size="small" />
+                                </Tooltip>
+                            </FlexItem>
+                            <FlexItem margin='5px'>
+                                <Tooltip content="These just look cool. Maybe another time.">
+                                    <Icon icon={<BrowseTable />} color="inform" size="small" />
+                                </Tooltip>
+                            </FlexItem>
+                            <FlexItem margin='5px'>
+                                <Tooltip content="Your princess is in another castle.">
+                                    <Icon icon={<Public />} color="inform" size="small" />
+                                </Tooltip>
+                            </FlexItem>
+                        </Flex>
+                    </FlexItem>
+                </Flex>
                 <Divider/>
                     <Flex justifyContent='space-evenly'>
 
@@ -321,7 +351,7 @@ const App = () => {
                             
                             </Box>
                         } direction="left" title="Boards">
-                            <ListItem icon={<ArrowForward />} >Boards</ListItem>
+                            <ListItem icon={<ArrowForward />} >Metadata</ListItem>
                         </Panel>
                     </Panels>
                     
@@ -342,7 +372,7 @@ const App = () => {
                                     />
                             </Box>
                             } direction="left" title="Management">
-                            <ListItem icon={<ArrowForward />}>Management</ListItem>
+                            <ListItem icon={<ArrowForward />}>Admin</ListItem>
                         </Panel>
                     </Panels>
                     <DividerVertical stretch/>
