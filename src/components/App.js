@@ -18,8 +18,10 @@ import { Card, Grid,
     FlexItem,
     Tooltip,  
     Divider, 
+
     Box, Panel, Panels, ListItem, GridPlaceholder,
     DividerVertical } from '@looker/components'
+
 import {  ArrowLeft, ArrowRight, ArrowBack, ArrowForward} from '@styled-icons/material'
 import { LogoRings, 
     Explore, 
@@ -27,6 +29,7 @@ import { LogoRings,
     UserAttributes,
     Beaker,
     BrowseTable,
+    More,
     Public} from '@looker/icons'
 import { 
     ExtensionContext, 
@@ -137,7 +140,17 @@ const App = () => {
     
     async function getDashboard(dashboardId) {
         const response = await sdk.ok(sdk.dashboard(dashboardId))
-        return response['dashboard_elements'][5]['query']['id']
+        let queryId = 0;
+        for(i=0;i<response.dashboard_elements.length;i++){
+            if(dashboard.dashboard_elements[i].queryid!=null){
+                    queryId = dashboard.dashboard_elements[i].queryid
+                    console.log(queryId)
+                    break;
+            } else {
+        console.log('No query found')
+            }
+        }
+        return queryId
     }
     const addDash = (dash) => {
         const dashestoadd = {...dashes}
@@ -272,7 +285,18 @@ const App = () => {
         <ComponentsProvider globalStyle={false}>
 
                 <Flex justifyContent='space-between'>
-                    <FlexItem><Heading margin='3px'>Centre of Excellence</Heading></FlexItem>
+                    <FlexItem>
+                        <Flex><Heading margin='3px'>Centre of Excellence</Heading>
+                        <Tooltip content="This Extension should be used as an entry point for end users. 
+                        On the left, there is a panel showing a predetermined list of dashboards the user can open in the iframe. 
+                        Admins can configure what dashboards show and what metadata is shown to the user by way of the Admin tab.
+                        Users may add comments, report bugs to assigned owners, run sample queries from the dashboards without opening and also add them directly to their own personal board (tbc).
+
+                        ">
+                            <Icon icon={<More />} size="small" />
+                        </Tooltip>
+                        </Flex>
+                    </FlexItem>yarn 
                     <FlexItem>
                         <Flex justifyContent='end'>
                             <FlexItem margin='5px'>
