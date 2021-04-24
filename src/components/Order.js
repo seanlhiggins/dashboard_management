@@ -11,7 +11,11 @@ import { Button,
     Paragraph, 
     Heading, 
     Tooltip,
-    Truncate,
+    Badge,
+    DataTable,
+    DataTableAction,
+    DataTableItem,
+    DataTableCell,
     Spinner } from '@looker/components'
 import { Delete} from '@styled-icons/material'
 
@@ -38,8 +42,57 @@ const Order = ({dashes, orders, createNewBoard, sampleQueries,removeFromOrder, q
         )
     }   
         const queries =Object.keys(sampleQueries).filter((key)=> key == querySelected);
-
         const queryToRender = sampleQueries[queries]
+        console.log('6')
+        let queryJSON = []
+        if(queryToRender){
+            queryJSON = JSON.parse(queryToRender)
+        }
+        console.log('7')
+        console.log(queryJSON[0])
+        // brute force approach to get each key value:
+        // for(let i=0;i<queryJSON.length;i++){
+        //     let testKey = Object.keys(queryJSON[0])
+        //     testKey.forEach((k) =>{
+        //         console.log(queryJSON[i][k])
+        //     })
+        // }
+        const items = queryJSON.map((line) => {
+            console.log('8')
+
+            let actions = (
+              <>
+                <DataTableAction onClick={() => alert(`${line['difference_in_calls']} selected!`)}>
+                  Copy Row
+                </DataTableAction>
+              </>
+            )
+        
+            return (
+              <DataTableItem
+                key={line['difference_in_calls']}
+                id={line['difference_in_calls']}
+                onClick={() => alert('Row clicked')}
+                actions={actions}
+              >
+                <DataTableCell>{line['difference_in_calls']}</DataTableCell>
+                <DataTableCell>{line['difference_in_calls']}</DataTableCell>
+              </DataTableItem>
+            )
+          })
+        const columns = [
+            {
+              id: 'id',
+              title: 'ID',
+              type: 'number',   
+            },
+            {
+              id: 'name',
+              title: 'Name',
+              type: 'string',
+            },
+          ]
+        
         const orderIds = Object.keys(orders);
         const total = orderIds.reduce((prevTotal, key) => {
         const dash = dashes[key];
@@ -73,9 +126,11 @@ const Order = ({dashes, orders, createNewBoard, sampleQueries,removeFromOrder, q
                         <Divider />
 
                         <UnorderedList>
-                    <Span>Sample Query</Span>
-                        <Paragraph>Output of sample query from dashboards.</Paragraph>
-                        {queryRunning ? <Spinner /> :<Truncate>{JSON.stringify(queryToRender)}</Truncate>} 
+                    <Span fontWeight='semibold'>Query output</Span>
+                        {queryRunning ? <Spinner /> :  <Badge intent="positive">Complete</Badge>} 
+                        <DataTable columns={columns}>
+                            {items}
+                        </DataTable>
                     </UnorderedList>
 
             </ComponentsProvider>

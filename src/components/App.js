@@ -140,10 +140,11 @@ const App = () => {
     
     async function getDashboard(dashboardId) {
         const response = await sdk.ok(sdk.dashboard(dashboardId))
+        console.log(response)
         let queryId = 0;
-        for(i=0;i<response.dashboard_elements.length;i++){
-            if(dashboard.dashboard_elements[i].queryid!=null){
-                    queryId = dashboard.dashboard_elements[i].queryid
+        for( let i=0;i<response.dashboard_elements.length;i++){
+            if(response.dashboard_elements[i].query_id!=null){
+                    queryId = response.dashboard_elements[i].query_id
                     console.log(queryId)
                     break;
             } else {
@@ -242,11 +243,12 @@ const App = () => {
     const runQuery = (id) => {
         //DONE: get a sample query from the given dashboard ID and display the results of the vis in the middle console
         setQuerySelected('')
-        
+        console.log('1')
             //tell Extension that a query is now running
         setQueryRunning(true)
         const dashboardQueryId = getDashboard(id)
         .then((dashboardQueryId)=>{ 
+            console.log('2')
 
             //tell Extension which query is being run so downstream components can match against state and only render one piece
             setQuerySelected(dashboardQueryId)
@@ -256,15 +258,20 @@ const App = () => {
             
                     // if the key of the object in Firebase matches the query ID we retrieved earlier, then just display that,otherwise run a new query. Caching?!
                     if(queriesAvailable[0] == dashboardQueryId){
+                        console.log('3')
+
                         console.log('already have this query',queriesRef)
                         setQueryRunning(false)
 
                     } else {
                         runLookerQuery(dashboardQueryId)
                         .then((res) => { 
+                            console.log('4')
+
                             setQueryRunning(false)
                             console.log('Running Fresh Query')
-                            
+                            console.log('5')
+
                             const queriesRef = {...sampleQueries}
                             queriesRef[dashboardQueryId] = JSON.stringify(res)
                             setQueries(queriesRef)
@@ -296,7 +303,7 @@ const App = () => {
                             <Icon icon={<More />} size="small" />
                         </Tooltip>
                         </Flex>
-                    </FlexItem>yarn 
+                    </FlexItem> 
                     <FlexItem>
                         <Flex justifyContent='end'>
                             <FlexItem margin='5px'>
