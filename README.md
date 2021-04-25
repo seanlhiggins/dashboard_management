@@ -19,6 +19,6 @@ TODOs:
 - Link the Report a Probem to some sort of ticketing system
 - Conditionally hiding the management portal from non-Admins
 - Add global filters to a config panel
-- Convert the result of sample query to a data table
+- ~Convert the result of sample query to a data table~
 - ~Ensure the example query run is a query object, not a text tile~
 - Put some more config options in the top header, dark mode? Download?

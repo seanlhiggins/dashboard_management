@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { formatPrice,fancyTimeFormat } from '../helpers'
 import { Button, 
     ComponentsProvider, 
@@ -18,6 +18,67 @@ import { Button,
     DataTableCell,
     Spinner } from '@looker/components'
 import { Delete} from '@styled-icons/material'
+
+const DatatableOutput = ({queryJSON}) => {
+    const [columns, setColumns] = useState({
+    })
+
+
+    let tablecolumns =[]
+    let queryKeys = [] 
+    console.log(queryJSON)
+    if(queryJSON.length>0) {
+       queryKeys = Object.keys(queryJSON[0])
+    }
+    console.log(queryKeys)
+    
+    for(let i=0;i<=queryKeys.length && queryKeys;i++){
+        tablecolumns.push(
+            {
+                id: queryKeys[i],
+                title: queryKeys[i],
+                type: 'string'}
+            )
+
+    }
+    const items = queryJSON.map((line) => {
+        let actions = (
+          <>
+            <DataTableAction onClick={() => alert(`${line['difference_in_calls']} selected!`)}>
+              Copy Row
+            </DataTableAction>
+          </>
+        )
+        let datatablecells = [] 
+        for(let i=0;i<=queryKeys.length;i++){
+            datatablecells.push(<DataTableCell 
+                                key={line[queryKeys[i]]}>{line[queryKeys[i]]}
+                                </DataTableCell>)
+        }
+        console.log(tablecolumns)
+
+        return (
+            
+          <DataTableItem
+            key={line[queryKeys[0]]}
+            id={line[queryKeys[0]]}
+            onClick={() => console.log('Row clicked')}
+            actions={actions}
+          >
+            
+            {datatablecells}
+          </DataTableItem>
+        )
+      }
+      
+      
+      )
+      return (
+          <DataTable columns={tablecolumns}>
+        {items}
+        </DataTable>
+      )
+}
 
 const Order = ({dashes, orders, createNewBoard, sampleQueries,removeFromOrder, queryRunning, querySelected}) => {
     const renderOrder = (key) => {
@@ -53,45 +114,9 @@ const Order = ({dashes, orders, createNewBoard, sampleQueries,removeFromOrder, q
         //         console.log(queryJSON[i][k])
         //     })
         // }
-        const items = queryJSON.map((line) => {
-            let testKey = Object.keys(queryJSON[0])
-            let actions = (
-              <>
-                <DataTableAction onClick={() => alert(`${line['difference_in_calls']} selected!`)}>
-                  Copy Row
-                </DataTableAction>
-              </>
-            )
-            let datatablecells = [] 
-            for(let i=0;i<queryJSON.length;i++){
-                datatablecells.push(<DataTableCell>{line[testKey[i]]}</DataTableCell>
-                    )
-            }
-            return (
-               
-              <DataTableItem
-                key={line[testKey[0]]}
-                id={line[testKey[0]]}
-                onClick={() => console.log('Row clicked')}
-                actions={actions}
-              >
-                
-                {datatablecells}
-              </DataTableItem>
-        )
-          })
-        const columns = [
-            {
-              id: 'id',
-              title: 'ID',
-              type: 'number',   
-            }   ,
-            {
-              id: 'name',
-              title: 'Name',
-              type: 'string',
-            },
-          ]
+        
+
+        
         
         const orderIds = Object.keys(orders);
         const total = orderIds.reduce((prevTotal, key) => {
@@ -128,9 +153,7 @@ const Order = ({dashes, orders, createNewBoard, sampleQueries,removeFromOrder, q
                         <UnorderedList>
                     <Span fontWeight='semibold'>Query output</Span>
                         {queryRunning ? <Spinner /> :  <Badge intent="positive">Complete</Badge>} 
-                        <DataTable columns={columns}>
-                            {items}
-                        </DataTable>
+                        <DatatableOutput queryJSON={queryJSON}/>
                     </UnorderedList>
 
             </ComponentsProvider>
