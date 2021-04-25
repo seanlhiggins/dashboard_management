@@ -43,12 +43,10 @@ const Order = ({dashes, orders, createNewBoard, sampleQueries,removeFromOrder, q
     }   
         const queries =Object.keys(sampleQueries).filter((key)=> key == querySelected);
         const queryToRender = sampleQueries[queries]
-        console.log('6')
         let queryJSON = []
         if(queryToRender){
             queryJSON = JSON.parse(queryToRender)
         }
-        console.log('7')
         console.log(queryJSON[0])
         // brute force approach to get each key value:
         // for(let i=0;i<queryJSON.length;i++){
@@ -58,8 +56,7 @@ const Order = ({dashes, orders, createNewBoard, sampleQueries,removeFromOrder, q
         //     })
         // }
         const items = queryJSON.map((line) => {
-            console.log('8')
-
+            let testKey = Object.keys(queryJSON[0])
             let actions = (
               <>
                 <DataTableAction onClick={() => alert(`${line['difference_in_calls']} selected!`)}>
@@ -70,13 +67,13 @@ const Order = ({dashes, orders, createNewBoard, sampleQueries,removeFromOrder, q
         
             return (
               <DataTableItem
-                key={line['difference_in_calls']}
-                id={line['difference_in_calls']}
+                key={line[testKey[0]]}
+                id={line[testKey[0]]}
                 onClick={() => alert('Row clicked')}
                 actions={actions}
               >
-                <DataTableCell>{line['difference_in_calls']}</DataTableCell>
-                <DataTableCell>{line['difference_in_calls']}</DataTableCell>
+                <DataTableCell>{line[testKey[0]]}</DataTableCell>
+                <DataTableCell>{line[testKey[1]]}</DataTableCell>
               </DataTableItem>
             )
           })
