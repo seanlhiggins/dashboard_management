@@ -109,12 +109,10 @@ const App = () => {
     useEffect(()=> {
         //using the ID of each dashboard card, run an async query to Looker's System Activity to get some stats
         const dashboards = {...dashes}
-        console.log(dashboards)
         var dashesWithRunTimeReturn={};
         Object.keys(dashboards).map(key => {
         dashesWithRunTimeReturn = getDashboardSAData(dashboards,key)
         })
-        console.log(dashesWithRunTimeReturn)
         // IMPORTANT: never setDashes without a dependency array, or each time you re-render, it'll cause an infinite loop.    
         setDashes(dashesWithRunTimeReturn)
     },[])  
@@ -140,7 +138,6 @@ const App = () => {
     
     async function getDashboard(dashboardId) {
         const response = await sdk.ok(sdk.dashboard(dashboardId))
-        console.log(response)
         let queryId = 0;
         for( let i=0;i<response.dashboard_elements.length;i++){
             if(response.dashboard_elements[i].query_id!=null){
@@ -189,7 +186,6 @@ const App = () => {
             // get the current user ID and whatever comment they make, timestamp it and add it to a new comments object in state
             const display_name = userId['display_name']
             const commentsReference = `${display_name} - ${Date.now()}`
-            console.log(commentDashes[index])
             commentDashes[index].comments[commentsReference] = comment
             setDashes(commentDashes)
         })
@@ -243,12 +239,10 @@ const App = () => {
     const runQuery = (id) => {
         //DONE: get a sample query from the given dashboard ID and display the results of the vis in the middle console
         setQuerySelected('')
-        console.log('1')
             //tell Extension that a query is now running
         setQueryRunning(true)
         const dashboardQueryId = getDashboard(id)
         .then((dashboardQueryId)=>{ 
-            console.log('2')
 
             //tell Extension which query is being run so downstream components can match against state and only render one piece
             setQuerySelected(dashboardQueryId)
@@ -258,7 +252,6 @@ const App = () => {
             
                     // if the key of the object in Firebase matches the query ID we retrieved earlier, then just display that,otherwise run a new query. Caching?!
                     if(queriesAvailable[0] == dashboardQueryId){
-                        console.log('3')
 
                         console.log('already have this query',queriesRef)
                         setQueryRunning(false)
@@ -266,11 +259,9 @@ const App = () => {
                     } else {
                         runLookerQuery(dashboardQueryId)
                         .then((res) => { 
-                            console.log('4')
 
                             setQueryRunning(false)
                             console.log('Running Fresh Query')
-                            console.log('5')
 
                             const queriesRef = {...sampleQueries}
                             queriesRef[dashboardQueryId] = JSON.stringify(res)

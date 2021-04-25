@@ -24,7 +24,6 @@ const Order = ({dashes, orders, createNewBoard, sampleQueries,removeFromOrder, q
         const dash = dashes[key];
         const count = orders[key];
         const isAvailable =  dash && dash.status === 'available';
-        console.log(key)
         if(!dash) return null;
         if(!isAvailable) {
             return (
@@ -47,7 +46,6 @@ const Order = ({dashes, orders, createNewBoard, sampleQueries,removeFromOrder, q
         if(queryToRender){
             queryJSON = JSON.parse(queryToRender)
         }
-        console.log(queryJSON[0])
         // brute force approach to get each key value:
         // for(let i=0;i<queryJSON.length;i++){
         //     let testKey = Object.keys(queryJSON[0])
@@ -64,25 +62,30 @@ const Order = ({dashes, orders, createNewBoard, sampleQueries,removeFromOrder, q
                 </DataTableAction>
               </>
             )
-        
+            let datatablecells = [] 
+            for(let i=0;i<queryJSON.length;i++){
+                datatablecells.push(<DataTableCell>{line[testKey[i]]}</DataTableCell>
+                    )
+            }
             return (
+               
               <DataTableItem
                 key={line[testKey[0]]}
                 id={line[testKey[0]]}
-                onClick={() => alert('Row clicked')}
+                onClick={() => console.log('Row clicked')}
                 actions={actions}
               >
-                <DataTableCell>{line[testKey[0]]}</DataTableCell>
-                <DataTableCell>{line[testKey[1]]}</DataTableCell>
+                
+                {datatablecells}
               </DataTableItem>
-            )
+        )
           })
         const columns = [
             {
               id: 'id',
               title: 'ID',
               type: 'number',   
-            },
+            }   ,
             {
               id: 'name',
               title: 'Name',
