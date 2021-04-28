@@ -20,5 +20,6 @@ TODOs:
 - Conditionally hiding the management portal from non-Admins
 - Add global filters to a config panel
 - ~Convert the result of sample query to a data table~
+- Add a taskbar to give users option to see png or data table
 - ~Ensure the example query run is a query object, not a text tile~
 - Put some more config options in the top header, dark mode? Download?

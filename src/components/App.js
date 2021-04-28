@@ -185,7 +185,7 @@ const App = () => {
         getUser().then((userId) => {
             // get the current user ID and whatever comment they make, timestamp it and add it to a new comments object in state
             const display_name = userId['display_name']
-            const commentsReference = `${display_name} - ${Date.now()}`
+            const commentsReference = `${Date.now()} - ${display_name}`
             commentDashes[index].comments[commentsReference] = comment
             setDashes(commentDashes)
         })
