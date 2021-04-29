@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Header from './Header'
-import Inventory from './Inventory'
+import Admin from './Admin'
 import Order from './Order'
 import sampledashes from '../sample-dashes'
 import DashCard from './DashCard';
@@ -79,6 +79,7 @@ const App = () => {
             await sdk.ok(
                     sdk.me())
                     .then((r) => {
+                        console.log(r.role_ids)
                         setMe(r)
                     })
                 }
@@ -312,7 +313,9 @@ const App = () => {
         const embedDashboardUpdate = dashboardId
         setEmbedDashboard(embedDashboardUpdate)
     }
-
+    const user = {...me}
+    const isAdmin = user['role_ids']==2
+    console.log(isAdmin)
     return (
 
         <ComponentsProvider globalStyle={false}>
@@ -412,13 +415,12 @@ const App = () => {
                         </Panel>
                     </Panels>
                     
-
-                    <Panels >
+                    <Panels hidden={isAdmin}>
                         <Panel content={
                             <Box padding='10px'   bg="keyAccent"
                             border="2px solid black"
                             borderRadius="4px" backgroundColor='white'>
-                                <Inventory 
+                                <Admin 
                                     getFreshMetadata={getFreshMetadata}
                                     addDash={addDash} 
                                     updateDash={updateDash} 

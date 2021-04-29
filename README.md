@@ -10,7 +10,7 @@
 - Users can use a preconfigured dashboard filter UI across all dashboards (global filters)
 
 TODOs:
-- Get more interesting Metadata
+- ~Get more interesting Metadata~ Might revisit
 - ~Clean up the show/hide panels~
 - ~Create an embedded iframe to see the dashboards in the same view~
 - Allow users to run sample queries that retrieve PNGs instead of just JSON
