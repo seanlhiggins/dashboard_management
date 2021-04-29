@@ -133,10 +133,10 @@ const Order = ({dashes, orders, createNewBoard, sampleQueries,removeFromOrder, q
         return (
             <ComponentsProvider globalStyle={false}>
                     
-                    <Heading fontWeight='bold'>Board</Heading>
+                    <Heading fontWeight='bold'>Metadata</Heading>
                     <UnorderedList>
                         {orderIds.map(renderOrder)}
-                    </UnorderedList>
+                    
                     <Tooltip content="This whole section is a WIP. I plan to have the sample queries saved as JSON in a neat box, but to also render
                         the PNG element of the same query. I haven't wired up the Cloud Storage bits for the pngs but the queries at 
                         least save to Firebase and have permanence.
@@ -144,6 +144,7 @@ const Order = ({dashes, orders, createNewBoard, sampleQueries,removeFromOrder, q
                         The idea here is that a CoE team specifies the canonical dashboards and users can maintain a content system based on that.">
                         <Button size='small' onClick={createNewBoard}>CREATE NEW BOARD</Button>
                         </Tooltip>
+                    </UnorderedList>
                   
                     <Span>Total Runtime: </Span>
                         <Text>{fancyTimeFormat(total)}</Text>
@@ -151,7 +152,7 @@ const Order = ({dashes, orders, createNewBoard, sampleQueries,removeFromOrder, q
                         <Divider />
 
                         <UnorderedList>
-                    <Span fontWeight='semibold'>Query output</Span>
+                    <Heading fontWeight='semibold'>Query output</Heading>
                         {queryRunning ? <Spinner /> :  <Badge intent="positive">Complete</Badge>} 
                         <DatatableOutput queryJSON={queryJSON}/>
                     </UnorderedList>

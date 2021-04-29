@@ -32,16 +32,16 @@ const AddDashForm = ({addDash}) => {
 
         return (
             <ComponentsProvider>
-                <InputText required name='name'  type='text' placeholder='Name' />
-                <InputText name='runtime'  type='text' placeholder='Runtime' />
-                <InputText required name='id'  type='text' placeholder='Dashboard ID' />
-                <InputText name='owner'  type='text' placeholder='Owner' />
-                <Select name='status' 
+                <InputText required name='name' ref={nameRef}  type='text' placeholder='Name' />
+                <InputText name='runtime' ref={runtimeRef}  type='text' placeholder='Runtime' />
+                <InputText required name='id' ref={idRef}  type='text' placeholder='Dashboard ID' />
+                <InputText name='owner' ref={ownerRef}  type='text' placeholder='Owner' />
+                <Select name='status'  ref={statusRef}
                     options={[
                         {value:'available', label:'Available'},
                         {value:'unavailable', label:'Deprecated'}]}/>
-                <TextArea required name='desc'  type='text' placeholder='Desc'></TextArea>
-                <InputText required name='image'  type='text' placeholder='Image' />
+                <TextArea required name='desc' ref={descRef}  type='text' placeholder='Desc'></TextArea>
+                <InputText required name='image'  ref={imageRef} type='text' placeholder='Image' />
                 <Button type='submit' onClick={createDash}>+ Add Dash</Button>
             </ComponentsProvider>
         ) 

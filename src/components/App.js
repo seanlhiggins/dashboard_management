@@ -85,9 +85,10 @@ const App = () => {
         
         getUser()
     },[])
-              // have to eventually figure out how to sync the state with Firebase. Placeholder from standalone app:
+    
+    // sync the dashboards and query states with Firebase. Placeholder from standalone app:
     useEffect(() => {
-        firebase.database().ref(`profservices/dashes`).on('value', snapshot => {
+        firebase.database().ref(`profservices/dashes`). on('value', snapshot => {
             if (snapshot.val()) setDashes(snapshot.val())
         })
     }, []);
@@ -135,9 +136,37 @@ const App = () => {
         dashWithRuntime['runtime'] = dashRuntime
         return dashWithRuntime
     }
+    async function getDashboardRunCount(dashboard) {
+        // for each dashboard in state, get some basic stats about it to show the user
+        const dashboardId = dashboard['id']
+        // make a shallow copy of state
+        const dashwithdashUsage = {...dashboard}
+        //get stats about each dashboard ID
+        console.log(dashboardId)
+        const req = 
+            {"model": "system_activity",
+            "view": "history",
+            "filters": {
+                "history.real_dash_id": `"${dashboardId}"`,
+                "history.completed_week": "4 weeks"
+              },
+            "dynamic_fields": "[{\"_kind_hint\":\"measure\",\"table_calculation\":\"usage_last_week\",\"_type_hint\":\"number\",\"category\":\"table_calculation\",\"expression\":\"${history.count}/offset(${history.count},1)-1\",\"label\":\"Usage Last Week\",\"value_format\":null,\"value_format_name\":null}]",
+            "fields": [
+                "history.completed_week",
+                "history.count"
+              ],
+              "limit":"10"
+            }
+        const response =  await sdk.ok(sdk.run_inline_query({result_format:'json', body:req}))
+        console.log(response)
+        const dashUsage = response[0]['usage_last_week']
+        dashwithdashUsage['usageLastWeek'] = dashUsage
+        return dashwithdashUsage
+    }
     
     async function getDashboard(dashboardId) {
         const response = await sdk.ok(sdk.dashboard(dashboardId))
+        // find the first query_id on the dashboard so we're not trying to run a query for a text tile
         let queryId = 0;
         for( let i=0;i<response.dashboard_elements.length;i++){
             if(response.dashboard_elements[i].query_id!=null){
@@ -171,6 +200,12 @@ const App = () => {
             const dashestoadd = {...dashes}
             dashestoadd[index].runtime = res.runtime
             setDashes(dashestoadd)
+        })
+        getDashboardRunCount(dash).then((res) => {
+            const dashestoadd = {...dashes}
+            dashestoadd[index].usage = res.usageLastWeek
+            setDashes(dashestoadd)
+
         })
     }
     async function getUser()  {
@@ -372,7 +407,7 @@ const App = () => {
                                 />
                             
                             </Box>
-                        } direction="left" title="Boards">
+                        } direction="left" title="Metadata">
                             <ListItem icon={<ArrowForward />} >Metadata</ListItem>
                         </Panel>
                     </Panels>
