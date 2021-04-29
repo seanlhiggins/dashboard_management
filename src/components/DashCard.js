@@ -178,7 +178,7 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateE
                                   <Flex justifyContent='flex-end' id='metadata'>
                                     <FlexItem id='usage'>
                                       <Flex>
-                                        <Tooltip content='Change in usage WoW'><Icon icon={<SalesAnalytics />} label="usage" color='#959a9d' size='xsmall' /></Tooltip><Span fontSize='xsmall' color='subdued'  padding='3px' textAlign='centre'>{(usage*100).toFixed(1)+"%"}</Span>
+                                        <Tooltip content='Change in usage WoW'><Icon color={usage>0 ? "#00AF33":"#FF1F33"} icon={<SalesAnalytics />} label="usage"  size='xsmall' /></Tooltip><Span fontSize='xsmall' color={usage>0 ? "#00AF33":"#FF1F33"}  padding='3px' textAlign='centre'>{(usage*100).toFixed(1)+"%"}</Span>
                                       </Flex>
                                     </FlexItem>
                                     <FlexItem id='runtime' padding='2px'>{showRuntime ? 
