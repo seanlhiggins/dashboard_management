@@ -97,7 +97,7 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateE
     }
       addComment(index,newComment)
     }
-    const { image, name, runtime, desc, id, status, showRuntime, showExplore, showOwner, owner,  comments} = details;
+    const { image, name, runtime, usage, desc, id, status, showRuntime, showExplore, showOwner, owner,  comments} = details;
     const isAvailable = status === 'available';
     let commentsLength = 0
     let commentsParsed =''
@@ -175,6 +175,7 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateE
                               <FlexItem id='metacard'>
                                 <Card ref={hoverRef} raised>
                                   <Flex justifyContent='flex-end' id='metadata'>
+                                  <FlexItem id='usage'>{usage}</FlexItem>
                                     <FlexItem id='runtime' padding='2px'>{showRuntime ? 
                                       <Flex>
                                         <Tooltip content='Average Runtime as calculated by System Activity'><Icon icon={<DashboardGauge/>} label="Average Runtime" color='#959a9d' size='xsmall' />
