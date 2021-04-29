@@ -4,6 +4,7 @@ export function formatPrice(cents) {
     currency: "USD"
   });
 }
+
 export function fancyTimeFormat(duration)
 {   
     // Hours, minutes and seconds

@@ -30,7 +30,8 @@ import { LogoRings,
   DashboardGauge, 
   UserAttributes, 
   CalendarHour,
-  Notes} from '@looker/icons'
+  Notes,
+  SalesAnalytics} from '@looker/icons'
   
   const AvatarIcon = (props) => {
     return (
@@ -175,7 +176,11 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateE
                               <FlexItem id='metacard'>
                                 <Card ref={hoverRef} raised>
                                   <Flex justifyContent='flex-end' id='metadata'>
-                                  <FlexItem id='usage'>{usage}</FlexItem>
+                                    <FlexItem id='usage'>
+                                      <Flex>
+                                        <Tooltip content='Change in usage WoW'><Icon icon={<SalesAnalytics />} label="usage" color='#959a9d' size='xsmall' /></Tooltip><Span fontSize='xsmall' color='subdued'  padding='3px' textAlign='centre'>{(usage*100).toFixed(1)+"%"}</Span>
+                                      </Flex>
+                                    </FlexItem>
                                     <FlexItem id='runtime' padding='2px'>{showRuntime ? 
                                       <Flex>
                                         <Tooltip content='Average Runtime as calculated by System Activity'><Icon icon={<DashboardGauge/>} label="Average Runtime" color='#959a9d' size='xsmall' />
