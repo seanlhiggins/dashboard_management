@@ -17,7 +17,7 @@ TODOs:
 - ~Track comments alongside dashboards within Firebase~
 - Set comments and metadata inside Looker's DB
 - Link the Report a Probem to some sort of ticketing system
-- Conditionally hiding the management portal from non-Admins
+- ~Conditionally hiding the management portal from non-Admins~
 - Add global filters to a config panel
 - ~Convert the result of sample query to a data table~
 - Add a taskbar to give users option to see png or data table

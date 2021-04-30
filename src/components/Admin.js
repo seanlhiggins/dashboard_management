@@ -7,7 +7,7 @@ import EditDashForm from './EditDashForm';
 const Admin = ({dashes,loadSampleDashes,addDash,deleteDash, getFreshMetadata,updateDash}) => {
         return (
             <>
-                <Heading fontWeight='bold'>Management</Heading>
+                <Heading fontWeight='bold'>Admin Console</Heading>
                 <SpaceVertical>
                 {Object.keys(dashes)
                 .filter(key => dashes[key]!=null)

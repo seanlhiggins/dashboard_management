@@ -16,6 +16,9 @@ import { Button,
     DataTableAction,
     DataTableItem,
     DataTableCell,
+    Accordion,
+    AccordionDisclosure,
+    AccordionContent,
     Spinner } from '@looker/components'
 import { Delete} from '@styled-icons/material'
 
@@ -154,7 +157,11 @@ const Order = ({dashes, orders, createNewBoard, sampleQueries,removeFromOrder, q
                         <UnorderedList>
                     <Heading fontWeight='semibold'>Query output</Heading>
                         {queryRunning ? <Spinner /> :  <Badge intent="positive">Complete</Badge>} 
-                        <DatatableOutput queryJSON={queryJSON}/>
+                        <Accordion>
+                            <AccordionDisclosure>Data Output</AccordionDisclosure>
+                            <AccordionContent><DatatableOutput queryJSON={queryJSON}/></AccordionContent>
+                        </Accordion>
+                        
                     </UnorderedList>
 
             </ComponentsProvider>

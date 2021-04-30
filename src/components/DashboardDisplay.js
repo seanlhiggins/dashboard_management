@@ -36,7 +36,7 @@ const DashboardDisplay = (props) => {
 
 
     return (
-        <Box p='xlarge'>
+        <Box>
             {props.dashboard && 
                 <>
                     <EmbedContainer ref={embedCtrRef}/>

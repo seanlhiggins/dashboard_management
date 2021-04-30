@@ -23,6 +23,7 @@ import { Card, Grid,
     DividerVertical } from '@looker/components'
 
 import {  ArrowLeft, ArrowRight, ArrowBack, ArrowForward} from '@styled-icons/material'
+import { InfoCircle } from '@styled-icons/bootstrap'
 import { LogoRings, 
     Explore, 
     DashboardGauge, 
@@ -64,6 +65,7 @@ const App = () => {
     const [querySelected, setQuerySelected] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [me, setMe] = useState(undefined)
+    const [isAdmin, setIsAdmin] = useState(true)
     const [embedDashboard, setEmbedDashboard] = useState('451')
   
     // const title = (
@@ -81,6 +83,8 @@ const App = () => {
                     .then((r) => {
                         console.log(r.role_ids)
                         setMe(r)
+                        let isUserAdmin = r.role_ids[0]==2
+                        setIsAdmin(isUserAdmin)
                     })
                 }
         
@@ -314,7 +318,7 @@ const App = () => {
         setEmbedDashboard(embedDashboardUpdate)
     }
     const user = {...me}
-    const isAdmin = user['role_ids']==2
+    const currentUserIsAdmin = user['role_ids']==2
     console.log(isAdmin)
     return (
 
@@ -329,7 +333,7 @@ const App = () => {
                         Users may add comments, report bugs to assigned owners, run sample queries from the dashboards without opening and also add them directly to their own personal board (tbc).
 
                         ">
-                            <Icon icon={<More />} size="small" />
+                            <Icon color='#959a9d' icon={<InfoCircle />} size="xxsmall" />
                         </Tooltip>
                         </Flex>
                     </FlexItem> 
@@ -359,7 +363,7 @@ const App = () => {
                     </FlexItem>
                 </Flex>
                 <Divider/>
-                    <Flex justifyContent='space-evenly'>
+                    <Flex >
 
                         <Panels>
                             <Panel defaultOpen={true} content={
@@ -388,8 +392,8 @@ const App = () => {
                                     )}
                                     </Flex>
                                 </Box>
-                                } direction="left" title="Dashboards">
-                                <ListItem icon={<ArrowForward />} >Dashboards</ListItem>
+                                } direction="left" title="Dashboard List">
+                                <ListItem icon={<ArrowForward />} >Dashboard List</ListItem>
 
                             </Panel>
                     </Panels>
@@ -415,7 +419,7 @@ const App = () => {
                         </Panel>
                     </Panels>
                     
-                    <Panels hidden={isAdmin}>
+                    <Panels hidden={!isAdmin}>
                         <Panel content={
                             <Box padding='10px'   bg="keyAccent"
                             border="2px solid black"
@@ -430,14 +434,14 @@ const App = () => {
                                     setRuntimeChecked={setRuntimeChecked}
                                     />
                             </Box>
-                            } direction="left" title="Management">
+                            } direction="left" title="Admin">
                             <ListItem icon={<ArrowForward />}>Admin</ListItem>
                         </Panel>
                     </Panels>
                     <DividerVertical stretch/>
                 </Flex>
 
-                <Box height='100%' width='100%' >
+                <Box padding='5px' height='100%' width='100%' >
                     <DashboardDisplay
                         dashboard={embedDashboard}
                         setIsLoading={setIsLoading}

@@ -15,6 +15,7 @@ import { Paragraph,
       Divider, 
       List, 
       FlexItem, 
+      Prompt,
       Flex, 
       Box, 
       SpaceVertical,
@@ -114,11 +115,20 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateE
     const icon = isAvailable ? <LogoRings /> : 'X';
     const hoverRef = React.useRef()
     const commentRef= React.useRef()
-    const content = <PopoverContent p="large"><Button onClick={() => (<PopoverContent p="large"><Fieldset legend="Report Problem">
-                                                                          <FieldText label="Assignee" />
-                                                                          <FieldText label="Overview" />
-                                                                          <FieldText label="Description" />
-                                                                        </Fieldset></PopoverContent>)}>Report a Problem</Button></PopoverContent>
+    const content = <Prompt
+                                                  title={'Report a Problem'}
+                                                  inputLabel={'Description'}
+                                                  onCancel={(close) => {
+                                                    alert('Problem reported')
+                                                    close()
+                                                  }}
+                                                  onSave={(value, close) => {
+                                                    alert(`You chose ${value}`)
+                                                    close()
+                                                  }}
+                                                >
+                                                  {(open) => <Button onClick={open}>Report Problem</Button>}
+                                                </Prompt>
     const commentPop = <PopoverContent p="large">
                           {Object.keys(commentsObj).map(key => 
                         <CommentCard comments={commentsObj[key]} key={key} index={key}></CommentCard>                    
@@ -132,25 +142,25 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateE
         <>
           <Box margin='4px'>
             <SpaceVertical>
-            
               <Flex justifyContent='space-between'  padding='5px'>
-                  
-                    <Card raised margin='6px' onClick={() =>handleUpdateEmbed(id)}>
+                    <Card ref={hoverRef} raised margin='6px' onClick={() =>handleUpdateEmbed(id)}>
                         <CardMedia image={image} title={name} alt={name}/>
                         <CardContent >
                           <Flex>
                             <FlexItem>
                               <Span fontSize='small'>{name}</Span>
-                              
+                              <Popover content={content} hoverDisclosureRef={hoverRef}>
+                                  <IconButton icon={<MoreVert />} label="Actions" />
+                                </Popover>
                             </FlexItem>
-                            
                           </Flex>
                         </CardContent>
                       </Card>
-                  <FlexItem>
+                  <FlexItem width='100%'>
                     <Flex flexDirection='column' id='headerdescbuttons'>
                       <FlexItem ><Heading marginBottom='0' marginTop='1' fontSize="Large" textAlign='center' fontWeight="bold">{name}</Heading></FlexItem>
-                      <FlexItem padding='5px'><Span fontSize='small' >{desc}</Span></FlexItem>
+                      <FlexItem padding='5px'>
+                        <Span fontSize='small' width='100%' >{desc}</Span></FlexItem>
                       <FlexItem>
                         <Flex justifyContent="space-evenly" alignItems="flex-end" id='buttons'>
                               <FlexItem id='add' margin='small'>
@@ -182,7 +192,7 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateE
                             </Flex>
                       </FlexItem>
                       <FlexItem id='metacard'>
-                        <Card ref={hoverRef} raised>
+                        <Card raised>
                           <Flex justifyContent='space-evenly' id='metadata'>
                             <FlexItem id='usage'>
                               <Flex>
@@ -199,9 +209,7 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateE
                             </FlexItem>
                             <FlexItem id='owner' padding='3px'>{showOwner ? <Flex><Tooltip content='Owner as specified by CoE Team'><Icon icon={<UserAttributes />} label="Owner" color='#959a9d' size='xsmall' /></Tooltip><Span fontSize='xsmall' color='subdued'  padding='2px' textAlign='centre'>@{owner}</Span> </Flex>: <Span></Span>}</FlexItem>
                             <FlexItem id='action'>
-                                <Popover content={content} hoverDisclosureRef={hoverRef}>
-                                  <IconButton icon={<MoreVert />} label="Actions" />
-                                </Popover>
+                                
                             </FlexItem>
                           </Flex>
                         </Card>
