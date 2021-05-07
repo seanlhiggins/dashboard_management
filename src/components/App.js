@@ -67,7 +67,7 @@ const App = () => {
     const [me, setMe] = useState(undefined)
     const [isAdmin, setIsAdmin] = useState(true)
     const [embedDashboard, setEmbedDashboard] = useState('451')
-  
+    const [isMenuOpen, setMenuOpen] = useState(true)
     // const title = (
     //   <>
     //     <Icon icon={<ArrowLeft />} m="xsmall" />
@@ -319,7 +319,12 @@ const App = () => {
     }
     const user = {...me}
     const currentUserIsAdmin = user['role_ids']==2
-    console.log(isAdmin)
+    const open = () => {
+        setMenuOpen(!isMenuOpen)
+    }
+    let opacity = 1
+    isMenuOpen ? opacity = 0.3 : opacity = 1;
+    console.log('menu '+ !isMenuOpen)
     return (
 
         <ComponentsProvider globalStyle={false}>
@@ -365,10 +370,10 @@ const App = () => {
                 <Divider/>
                     <Flex >
 
-                        <Panels>
-                            <Panel defaultOpen={true} content={
-                                <Box margin='medium' bg="keyAccent"
-                                border="2px solid black"
+                        <Panels onClick={open}>
+                            <Panel defaultOpen={true}  content={ 
+                                <Box id='Dashboards' margin='medium' bg="keyAccent" zIndex='1'
+                                border="2px solid black" position='relative'
                                 borderRadius="4px" backgroundColor='white'>
                                     <Flex flexDirection="column">
                                     {Object.keys(dashes)
@@ -393,55 +398,56 @@ const App = () => {
                                     </Flex>
                                 </Box>
                                 } direction="left" title="Dashboard List">
-                                <ListItem icon={<ArrowForward />} >Dashboard List</ListItem>
-
+                                <List>
+                                    <ListItem id='dashboardopener' onClick={open} icon={<ArrowForward />} >Dashboard List</ListItem>
+                                </List>
                             </Panel>
-                    </Panels>
+                        </Panels>
 
-                    <Panels>
-                        <Panel content={
-                            <Box padding='10px'   bg="keyAccent"
-                            border="2px solid black"
-                            borderRadius="4px" backgroundColor='white'>
-                                <Order 
-                                dashes={dashes}
-                                orders={orders}
-                                createNewBoard={createNewBoard}
-                                removeFromOrder={removeFromOrder}
-                                sampleQueries={sampleQueries}
-                                queryRunning={queryRunning}
-                                querySelected={querySelected}
-                                />
-                            
-                            </Box>
-                        } direction="left" title="Metadata">
-                            <ListItem icon={<ArrowForward />} >Metadata</ListItem>
-                        </Panel>
-                    </Panels>
-                    
-                    <Panels hidden={!isAdmin}>
-                        <Panel content={
-                            <Box padding='10px'   bg="keyAccent"
-                            border="2px solid black"
-                            borderRadius="4px" backgroundColor='white'>
-                                <Admin 
-                                    getFreshMetadata={getFreshMetadata}
-                                    addDash={addDash} 
-                                    updateDash={updateDash} 
-                                    loadSampleDashes={loadSampleDashes} 
-                                    deleteDash={deleteDash}
+                        <Panels>
+                            <Panel content={
+                                <Box id='Metadata' padding='10px'   bg="keyAccent" zIndex='1'
+                                border="2px solid black"  position='relative'
+                                borderRadius="4px" backgroundColor='white'>
+                                    <Order 
                                     dashes={dashes}
-                                    setRuntimeChecked={setRuntimeChecked}
+                                    orders={orders}
+                                    createNewBoard={createNewBoard}
+                                    removeFromOrder={removeFromOrder}
+                                    sampleQueries={sampleQueries}
+                                    queryRunning={queryRunning}
+                                    querySelected={querySelected}
                                     />
-                            </Box>
-                            } direction="left" title="Admin">
-                            <ListItem icon={<ArrowForward />}>Admin</ListItem>
-                        </Panel>
-                    </Panels>
+                                
+                                </Box>
+                            } direction="left" title="Metadata">
+                                <ListItem icon={<ArrowForward />} >Metadata</ListItem>
+                            </Panel>
+                        </Panels>
+                    
+                        <Panels hidden={!isAdmin}>
+                            <Panel content={
+                                <Box id='Mgmt' padding='10px'   bg="keyAccent"  zIndex='1'
+                                border="2px solid black"  position='relative'
+                                borderRadius="4px" backgroundColor='white'>
+                                    <Admin 
+                                        getFreshMetadata={getFreshMetadata}
+                                        addDash={addDash} 
+                                        updateDash={updateDash} 
+                                        loadSampleDashes={loadSampleDashes} 
+                                        deleteDash={deleteDash}
+                                        dashes={dashes}
+                                        setRuntimeChecked={setRuntimeChecked}
+                                        />
+                                </Box>
+                                } direction="left" title="Admin">
+                                <ListItem icon={<ArrowForward />}>Admin</ListItem>
+                            </Panel>
+                        </Panels>
                     <DividerVertical stretch/>
                 </Flex>
 
-                <Box padding='5px' height='100%' width='100%' >
+                <Box id='Iframe' padding='5px' opacity={opacity} disabled={isMenuOpen} height='100%' width='100%' >
                     <DashboardDisplay
                         dashboard={embedDashboard}
                         setIsLoading={setIsLoading}
