@@ -4,7 +4,7 @@ import AddDashForm from './AddDashForm';
 import EditDashForm from './EditDashForm';
 
 
-const Admin = ({dashes,loadSampleDashes,addDash,deleteDash, getFreshMetadata,updateDash}) => {
+const Admin = ({dashes,loadSampleDashes,addDash,deleteDash, getFreshMetadata,updateDash,getSampleDashesFromSA}) => {
         return (
             <>
                 <Heading fontWeight='bold'>Admin Console</Heading>
@@ -21,7 +21,7 @@ const Admin = ({dashes,loadSampleDashes,addDash,deleteDash, getFreshMetadata,upd
                     updateDash={updateDash}/>))}
                 <AddDashForm 
                     addDash={addDash}/>
-                {/* <Button customColor='#4285f4' onClick={loadSampleDashes}>Load Sample Dashes</Button> */}
+                <Button customColor='#4285f4' onClick={getSampleDashesFromSA}>Load New Sample Dashes (top 10)</Button>
                 </SpaceVertical>
             </>
         ) 

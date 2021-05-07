@@ -313,9 +313,63 @@ const App = () => {
     }
 
     const updateEmbedDashboard = (dashboardId) => {
-        console.log('updatingdashboard', dashboardId)
         const embedDashboardUpdate = dashboardId
         setEmbedDashboard(embedDashboardUpdate)
+    }
+
+    async function getSampleDashes() {
+        const req = 
+            {"model": "system_activity",
+            "view": "history",
+            "filters": {
+                "history.completed_week": "4 weeks",
+                "history.real_dash_id":"-NULL"
+              },
+            "fields": [
+                "history.real_dash_id",
+                "dashboard.title",
+                "dashboard.description",
+                "history.count"
+              ],
+              "limit":"10"
+            }
+        const response =  await sdk.ok(sdk.run_inline_query({result_format:'json', body:req}))
+        return response
+
+    }
+    // helper function to rename object keys as Looker returns awfully named keys in query responses
+    const clone = (obj) => Object.assign({}, obj);
+    const renameKey = (object, key, newKey) => {
+        const clonedObj = clone(object);
+        const targetKey = clonedObj[key];
+        delete clonedObj[key];
+        clonedObj[newKey] = targetKey;
+        return clonedObj;      
+      };
+      
+    const getSampleDashesFromSA = () => {
+        getSampleDashes().then((r) => {
+            console.log(r)
+            let sampleDashes = {}
+            for(let i = 0;i<r.length;i++){
+                let id =  r[i]["history.real_dash_id"]
+
+                sampleDashes[`dash${i}`] = r[i]
+                delete  sampleDashes[`dash${i}`]["history.count"]
+                sampleDashes[`dash${i}`] = renameKey(sampleDashes[`dash${i}`],"dashboard.title","name")
+                sampleDashes[`dash${i}`] = renameKey(sampleDashes[`dash${i}`],"dashboard.description","desc")
+                if(sampleDashes[`dash${i}`]["desc"] ==null){
+                    sampleDashes[`dash${i}`]["desc"]='' 
+                }
+                sampleDashes[`dash${i}`] = renameKey(sampleDashes[`dash${i}`],"history.real_dash_id","id")
+                sampleDashes[`dash${i}`]["runtime"] = 0
+                sampleDashes[`dash${i}`]["status"] = "available"
+                sampleDashes[`dash${i}`]["image"] = `https://demoexpo.looker.com/api/internal/core/3.1/content_thumbnail/dashboard/${id}`
+                
+            }
+            console.log(sampleDashes)
+            setDashes(sampleDashes)
+        })
     }
     const user = {...me}
     const currentUserIsAdmin = user['role_ids']==2
@@ -324,7 +378,7 @@ const App = () => {
     }
     let opacity = 1
     isMenuOpen ? opacity = 0.3 : opacity = 1;
-    console.log('menu '+ !isMenuOpen)
+
     return (
 
         <ComponentsProvider globalStyle={false}>
@@ -438,6 +492,7 @@ const App = () => {
                                         deleteDash={deleteDash}
                                         dashes={dashes}
                                         setRuntimeChecked={setRuntimeChecked}
+                                        getSampleDashesFromSA={getSampleDashesFromSA}
                                         />
                                 </Box>
                                 } direction="left" title="Admin">
