@@ -16,6 +16,7 @@ TODOs:
 - Allow users to run sample queries that retrieve PNGs instead of just JSON
 - ~Track comments alongside dashboards within Firebase~
 - Set comments and metadata inside Looker's DB
+- ~Order comments based on time insertion~
 - Link the Report a Probem to some sort of ticketing system
 - ~Conditionally hiding the management portal from non-Admins~
 - Add global filters to a config panel
@@ -24,3 +25,5 @@ TODOs:
 - ~Ensure the example query run is a query object, not a text tile~
 - Put some more config options in the top header, dark mode? Download?
 - Give list of queries from dashboard for users to run? Preselected? 
+- ~Make iframe opaque / subdued when the menu opens~
+- Retrieve sample dashboards from current environment
