@@ -21,7 +21,7 @@ const Admin = ({dashes,loadSampleDashes,addDash,deleteDash, getFreshMetadata,upd
                     updateDash={updateDash}/>))}
                 <AddDashForm 
                     addDash={addDash}/>
-                <Button customColor='#4285f4' onClick={getSampleDashesFromSA}>Load New Sample Dashes (top 10)</Button>
+                <Button customColor='#4285f4' color='critical' onClick={getSampleDashesFromSA}>Load New Sample Dashes (top 10). Warning! This will clear all metadata and comments from the dashboards list. You probably don't want to do this as this button is mostly here for demos. Tom. Don't press this. Please.</Button>
                 </SpaceVertical>
             </>
         ) 
