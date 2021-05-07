@@ -26,4 +26,4 @@ TODOs:
 - Put some more config options in the top header, dark mode? Download?
 - Give list of queries from dashboard for users to run? Preselected? 
 - ~Make iframe opaque / subdued when the menu opens~
-- Retrieve sample dashboards from current environment
+- ~Retrieve sample dashboards from current environment~
