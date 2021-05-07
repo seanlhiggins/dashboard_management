@@ -21,7 +21,7 @@ const Admin = ({dashes,loadSampleDashes,addDash,deleteDash, getFreshMetadata,upd
                     updateDash={updateDash}/>))}
                 <AddDashForm 
                     addDash={addDash}/>
-                <Button customColor='#4285f4' onClick={loadSampleDashes}>Load Sample Dashes</Button>
+                {/* <Button customColor='#4285f4' onClick={loadSampleDashes}>Load Sample Dashes</Button> */}
                 </SpaceVertical>
             </>
         ) 
