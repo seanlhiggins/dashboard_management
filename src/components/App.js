@@ -39,27 +39,9 @@ import {
 const App = () => {
     const context = useContext(ExtensionContext)
     const sdk = context.core40SDK
-    const localStorageSet = async () => {
-        try {
-          await context.extensionSDK.localStorageSetItem('data', 'blah')
-        } catch (error) {
-          console.error(error)
-        }
-      }
-    const localStorageGet = async () => {
-    try {
-        await context.extensionSDK.localStorageGetItem('data', 'blah')
-        
-    } catch (error) {
-        console.error(error)
-    }
-    }
-    useEffect(() => {
-        localStorageSet()
-    })
+
     const [dashes, setDashes] = useState({})
     const [orders, setOrder] = useState({})
-    const [runtimeChecked, setRuntimeChecked] = useState(true)
     const [sampleQueries, setQueries] = useState({'101':''})
     const [queryRunning, setQueryRunning] = useState(false)
     const [querySelected, setQuerySelected] = useState('')
@@ -68,12 +50,7 @@ const App = () => {
     const [isAdmin, setIsAdmin] = useState(true)
     const [embedDashboard, setEmbedDashboard] = useState('451')
     const [isMenuOpen, setMenuOpen] = useState(true)
-    // const title = (
-    //   <>
-    //     <Icon icon={<ArrowLeft />} m="xsmall" />
-    //     Dashboards
-    //   </>
-    // )
+    
         
     // set the current user so we can look at their ID, avatar etc for comments
     useEffect (() => {
@@ -112,6 +89,7 @@ const App = () => {
         firebase.database().ref(`profservices/queries`).update(sampleQueries)
      }, [sampleQueries])
 
+
     useEffect(()=> {
         //using the ID of each dashboard card, run an async query to Looker's System Activity to get some stats
         const dashboards = {...dashes}
@@ -131,7 +109,7 @@ const App = () => {
         const dashWithRuntime = {...dashboard}
         //get stats about each dashboard ID
         const req = 
-            {"model": "system__activity",
+            {"model": "system_activity",
             "view": "dashboard_performance",
             "filters": {"dashboard.id": `${dashboardId}`},
             "fields": ["dashboard.id","dashboard.user_id","dashboard.title","dashboard.description","dashboard.space_id","dashboard_history_stats.avg_runtime"]}
@@ -139,6 +117,7 @@ const App = () => {
         const response =  await sdk.ok(sdk.run_inline_query({result_format:'json', body:req}))
         const dashRuntime = response[0]['dashboard_history_stats.avg_runtime']
         dashWithRuntime['runtime'] = dashRuntime
+
         return dashWithRuntime
     }
     async function getDashboardRunCount(dashboard) {
@@ -147,7 +126,7 @@ const App = () => {
         // make a shallow copy of state
         const dashwithdashUsage = {...dashboard}
         //get stats about each dashboard ID
-        console.log(dashboardId)
+
         const req = 
             {"model": "system_activity",
             "view": "history",
@@ -163,7 +142,7 @@ const App = () => {
               "limit":"10"
             }
         const response =  await sdk.ok(sdk.run_inline_query({result_format:'json', body:req}))
-        console.log(response)
+
         const dashUsage = response[0]['usage_last_week']
         dashwithdashUsage['usageLastWeek'] = dashUsage
         return dashwithdashUsage
@@ -202,6 +181,7 @@ const App = () => {
         const dash = {'id':dashboardid}
         getDashboardSAData(dash)
         .then((res) => {
+
             const dashestoadd = {...dashes}
             dashestoadd[index].runtime = res.runtime
             setDashes(dashestoadd)
@@ -349,25 +329,40 @@ const App = () => {
       
     const getSampleDashesFromSA = () => {
         getSampleDashes().then((r) => {
-            console.log(r)
             let sampleDashes = {}
+
+            // Looker gives unreadable keys as part of the data object so just remapping them. There's probably a cleaner way but 
+            // it's not a big deal
             for(let i = 0;i<r.length;i++){
                 let id =  r[i]["history.real_dash_id"]
-
+                const dash = {'id':id}
                 sampleDashes[`dash${i}`] = r[i]
+
+                getDashboardSAData(dash).then((res) => {
+                    console.log(res)
+                    sampleDashes[`dash${i}`]["runtime"]=res["runtime"]
+                })
+                getDashboardRunCount(dash).then((res) => {
+                    console.log(res)
+                    sampleDashes[`dash${i}`]["usage"]=res["usageLastWeek"]
+                })
                 delete  sampleDashes[`dash${i}`]["history.count"]
+
                 sampleDashes[`dash${i}`] = renameKey(sampleDashes[`dash${i}`],"dashboard.title","name")
                 sampleDashes[`dash${i}`] = renameKey(sampleDashes[`dash${i}`],"dashboard.description","desc")
+                
                 if(sampleDashes[`dash${i}`]["desc"] ==null){
                     sampleDashes[`dash${i}`]["desc"]='' 
                 }
+
                 sampleDashes[`dash${i}`] = renameKey(sampleDashes[`dash${i}`],"history.real_dash_id","id")
-                sampleDashes[`dash${i}`]["runtime"] = 0
+                sampleDashes[`dash${i}`]["showRuntime"] = true
+                sampleDashes[`dash${i}`]["showExplore"] = true
+                sampleDashes[`dash${i}`]["showOwner"] = true
                 sampleDashes[`dash${i}`]["status"] = "available"
                 sampleDashes[`dash${i}`]["image"] = `https://demoexpo.looker.com/api/internal/core/3.1/content_thumbnail/dashboard/${id}`
                 
             }
-            console.log(sampleDashes)
             setDashes(sampleDashes)
         })
     }
@@ -491,7 +486,6 @@ const App = () => {
                                         loadSampleDashes={loadSampleDashes} 
                                         deleteDash={deleteDash}
                                         dashes={dashes}
-                                        setRuntimeChecked={setRuntimeChecked}
                                         getSampleDashesFromSA={getSampleDashesFromSA}
                                         />
                                 </Box>

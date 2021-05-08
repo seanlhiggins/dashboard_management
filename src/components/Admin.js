@@ -4,7 +4,7 @@ import AddDashForm from './AddDashForm';
 import EditDashForm from './EditDashForm';
 
 
-const Admin = ({dashes,loadSampleDashes,addDash,deleteDash, getFreshMetadata,updateDash,getSampleDashesFromSA}) => {
+const Admin = ({dashes,addDash,deleteDash, getFreshMetadata,updateDash,getSampleDashesFromSA}) => {
         return (
             <>
                 <Heading fontWeight='bold'>Admin Console</Heading>
