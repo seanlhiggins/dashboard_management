@@ -4,3 +4,4 @@ node_modules/
 .ini
 node_modules
 node_modules
+src/base.js
