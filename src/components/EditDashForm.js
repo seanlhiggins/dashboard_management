@@ -20,10 +20,10 @@ const EditDashForm = ({updateDash,getFreshMetadata, deleteDash, index, dashes}) 
             <SpaceVertical>
             <Flex margin='medium' flexDirection='column' justifyContent='space-between'>
                 <Flex justifyContent='space-between'>
-                <InputText
+                <InputText  autoResize
                     name='name' onChange={handleChange} 
                     value={dashes.name} />
-                <InputText 
+                <InputText  autoResize
                     name='owner' onChange={handleChange} 
                     value={dashes.owner} />
                 <InputText  
@@ -41,13 +41,13 @@ const EditDashForm = ({updateDash,getFreshMetadata, deleteDash, index, dashes}) 
                 />
                 </Flex>
             <Flex>
-                <InputText 
+                <InputText  
                     name='desc'
                     onChange={handleChange} 
                     value={dashes.desc} />
             </Flex>
             <Flex>
-                <InputText 
+                <InputText  
                     onChange={handleChange} 
                     value={dashes.image} name='image' />
             </Flex>
