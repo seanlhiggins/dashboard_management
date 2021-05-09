@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react';
+import React, { useEffect, useState} from 'react';
 import { formatPrice,fancyTimeFormat } from '../helpers'
 import Badge from '@material-ui/core/Badge';
 import { Paragraph, 
@@ -40,7 +40,7 @@ import { LogoRings,
     )
 }
   const CommentCard = ({comments, index}) => {
-    console.log('message',comments)
+
     return (
       <Box width="30rem" height='6rem'>
         <Card key={comments[index]}
@@ -77,7 +77,11 @@ import { LogoRings,
 }
 
 const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateEmbedDashboard}) => {
-
+    const [commentForm, setCommentForm] = useState('')
+    
+    const handleFormChange = (e) => {
+      setCommentForm(e.target.value)
+    }
     const handleClick = () => {
         addToOrder(index)
     }   
@@ -98,6 +102,7 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateE
         avatar: me.avatar_url
     }
       addComment(index,newComment)
+      setCommentForm('')
     }
     const { image, name, runtime, usage, desc, id, status, showRuntime, showExplore, showOwner, owner,  comments} = details;
     const isAvailable = status === 'available';
@@ -134,7 +139,7 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateE
                         <CommentCard comments={commentsObj[key]} key={key} index={key}></CommentCard>                    
                         )}                   
                           <Form>  
-                            <FieldText label="Comment" ref={commentRef} name="Comment" placeholder="What's your beef?" />
+                            <FieldText label="Comment" value={commentForm} onChange={handleFormChange} ref={commentRef} name="Comment" placeholder="What's your beef?" />
                             <Button onClick={submitComment}>Submit</Button>
                           </Form>
                         </PopoverContent>

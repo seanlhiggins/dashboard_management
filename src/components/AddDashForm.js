@@ -17,7 +17,6 @@ const AddDashForm = ({addDash}) => {
         e.preventDefault()
         e.persist()
 
-        console.log(e)
         
         const dash = {
             name: nameRef.current.value,
@@ -28,7 +27,6 @@ const AddDashForm = ({addDash}) => {
             image: imageRef.current.value,
             owner: ownerRef.current.value
         }
-        console.log(dash)
         addDash(dash)
         e.reset();
     }
