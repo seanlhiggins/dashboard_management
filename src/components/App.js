@@ -5,6 +5,7 @@ import Order from './Order'
 import sampledashes from '../sample-dashes'
 import DashCard from './DashCard';
 import DashboardDisplay from './DashboardDisplay'
+import Filters from './Filters'
 import base from '../base';
 import firebase from 'firebase'
 import { Card, Grid,
@@ -16,10 +17,11 @@ import { Card, Grid,
     List, 
     Flex, 
     FlexItem,
-    Tooltip,  
+    Tooltip,  Tree,
     Divider, 
-    usePanel,
-    Box, Panel, Panels, ListItem, GridPlaceholder,
+    usePanel, FieldToggleSwitch,InputColor,FieldDateRange,
+    Box, Panel, Panels, ListItem,
+    ToggleSwitch,Label, 
     DividerVertical } from '@looker/components'
 
 import {  ArrowLeft, ArrowRight, ArrowBack, ArrowForward} from '@styled-icons/material'
@@ -30,7 +32,7 @@ import { LogoRings,
     UserAttributes,
     Beaker,
     BrowseTable,
-    More,
+    More, TableChart,
     Public} from '@looker/icons'
 import { 
     ExtensionContext, 
@@ -50,7 +52,8 @@ const App = () => {
     const [isAdmin, setIsAdmin] = useState(true)
     const [embedDashboard, setEmbedDashboard] = useState('451')
     const [isOpen, setOpen] = useState(true)
-    
+    const [on, setOn] = useState(false)
+    const handleChange = (event) => setOn(event.target.checked)
         
     // set the current user so we can look at their ID, avatar etc for comments
     useEffect (() => {
@@ -435,6 +438,15 @@ const App = () => {
                     </FlexItem> 
                     <FlexItem>
                         <Flex justifyContent='end'>
+                            <FlexItem>
+                                <Filters/>
+                            </FlexItem>
+                            <FlexItem >
+                                <Flex>
+                                    <FieldToggleSwitch  size='10px' onChange={handleChange} on={on} id="switch" />
+                                    <Label color='inform'>Retain Filters</Label>
+                                </Flex>
+                            </FlexItem>
                             <FlexItem margin='5px'>
                                 <Tooltip content="These don't do anything. Go Away.">
                                     <Icon icon={<Beaker />} color="inform" size="small" />

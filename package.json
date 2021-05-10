@@ -3,7 +3,7 @@
   "version": "0.0.3",
   "private": true,
   "dependencies": {
-    "@looker/components": "^1.1.3",
+    "@looker/components": "^1.1.6",
     "@looker/embed-sdk": "^1.6.0",
     "@looker/extension-sdk": "^21.0.8",
     "@looker/extension-sdk-react": "^21.0.8",
