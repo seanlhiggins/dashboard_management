@@ -58,7 +58,6 @@ const App = () => {
             await sdk.ok(
                     sdk.me())
                     .then((r) => {
-                        console.log(r.role_ids)
                         setMe(r)
                         let isUserAdmin = r.role_ids[0]==2
                         setIsAdmin(isUserAdmin)
@@ -246,10 +245,7 @@ const App = () => {
 
     const deleteComment = (key, dashkey) => {
         const dashboards = {...dashes}
-        console.log(dashkey)
-        console.log(dashboards[dashkey])
         delete dashboards[dashkey]['comments'][key] 
-        console.log(dashboards)
         // setDashes(comment)
       }
 
