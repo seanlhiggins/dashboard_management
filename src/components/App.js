@@ -374,10 +374,10 @@ const App = () => {
     const user = {...me}
     const currentUserIsAdmin = user['role_ids']==2
     const open = () => {
-        setMenuOpen(!isMenuOpen)
+        setMenuOpen(true)
     }
     const close = () => {
-        setMenuOpen(!isMenuOpen)
+        setMenuOpen(false)
     }
     let opacity = 1
     isMenuOpen ? opacity = 0.3 : opacity = 1;
@@ -427,10 +427,9 @@ const App = () => {
                 </Flex>
                 <Divider/>
                     <Flex >
-
                         <Panels >
-                            <Panel defaultOpen={true} onClose={close} content={ 
-                                <Box id='Dashboards' margin='medium' bg="keyAccent" zIndex='1'
+                            <Panel defaultOpen={true} margin='0px' content={ 
+                                <Box id='Dashboards'  bg="keyAccent" zIndex='1'
                                 border="2px solid black" position='relative'
                                 borderRadius="4px" backgroundColor='white' onClick={open}>
                                     <Flex flexDirection="column">
@@ -457,9 +456,7 @@ const App = () => {
                                     </Flex>
                                 </Box>
                                 } direction="left" title="Dashboard List">
-                                <List>
-                                    <ListItem id='dashboardopener' onClick={open} icon={<ArrowForward />} >Dashboard List</ListItem>
-                                </List>
+                                    <ListItem  id='dashboardopener' onClick={open} icon={<ArrowForward />} >Dashboard List</ListItem>
                             </Panel>
                         </Panels>
 
@@ -500,7 +497,7 @@ const App = () => {
                                         />
                                 </Box>
                                 } direction="left" title="Admin">
-                                <ListItem icon={<ArrowForward />}>Admin</ListItem>
+                                <ListItem onClick={open} icon={<ArrowForward />}>Admin</ListItem>
                             </Panel>
                         </Panels>
                     <DividerVertical stretch/>

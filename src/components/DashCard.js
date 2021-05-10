@@ -122,11 +122,9 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateE
                                                   title={'Report a Problem'}
                                                   inputLabel={'Description'}
                                                   onCancel={(close) => {
-                                                    alert('Problem reported')
                                                     close()
                                                   }}
                                                   onSave={(value, close) => {
-                                                    alert(`You chose ${value}`)
                                                     close()
                                                   }}
                                                 >
