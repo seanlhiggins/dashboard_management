@@ -39,7 +39,7 @@ import { LogoRings,
         <img display='inline' src={props.src} style={{borderRadius: '50%'}} width='50px' height='50px'/>
     )
 }
-  const CommentCard = ({comments, deleteComment, index}) => {
+  const CommentCard = ({comments, deleteComment, index, dashkey}) => {
 
 
     return (
@@ -65,7 +65,7 @@ import { LogoRings,
                       </Flex>
                     </FlexItem>
                     <FlexItem>
-                      <IconButton color='subdued' size='xxsmall' onClick={() => deleteComment(index)} label="Remove from Board" icon={<Delete />}></IconButton>
+                      <IconButton color='subdued' size='xxsmall' onClick={() => deleteComment(index, dashkey)} label="Delete Comment" icon={<Delete />}></IconButton>
                     </FlexItem>
                   </Flex>
           </CardContent>
@@ -134,7 +134,7 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateE
                                                 </Prompt>
     const commentPop = <PopoverContent p="large">
                           {Object.keys(commentsObj).map(key => 
-                        <CommentCard deleteComment={deleteComment} comments={commentsObj[key]} key={key} index={key}></CommentCard>                    
+                        <CommentCard deleteComment={deleteComment} dashkey={index} comments={commentsObj[key]} key={key} index={key}></CommentCard>                    
                         )}                   
                           <Form>  
                             <FieldText label="Comment" value={commentForm} onChange={handleFormChange} ref={commentRef} name="Comment" placeholder="What's your beef?" />

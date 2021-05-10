@@ -244,11 +244,12 @@ const App = () => {
         setOrder(order)
     }
 
-    const deleteComment = (key) => {
-        const comment = {...dashes}
-        console.log(comment)
-        comment['comments'][key] = null
-        console.log(comment)
+    const deleteComment = (key, dashkey) => {
+        const dashboards = {...dashes}
+        console.log(dashkey)
+        console.log(dashboards[dashkey])
+        delete dashboards[dashkey]['comments'][key] 
+        console.log(dashboards)
         // setDashes(comment)
       }
 
@@ -379,8 +380,12 @@ const App = () => {
     const open = () => {
         setMenuOpen(!isMenuOpen)
     }
+    const close = () => {
+        setMenuOpen(!isMenuOpen)
+    }
     let opacity = 1
     isMenuOpen ? opacity = 0.3 : opacity = 1;
+    
 
     return (
 
@@ -427,11 +432,11 @@ const App = () => {
                 <Divider/>
                     <Flex >
 
-                        <Panels onClick={open}>
-                            <Panel defaultOpen={true}  content={ 
+                        <Panels >
+                            <Panel defaultOpen={true} onClose={close} content={ 
                                 <Box id='Dashboards' margin='medium' bg="keyAccent" zIndex='1'
                                 border="2px solid black" position='relative'
-                                borderRadius="4px" backgroundColor='white'>
+                                borderRadius="4px" backgroundColor='white' onClick={open}>
                                     <Flex flexDirection="column">
                                     {Object.keys(dashes)
                                     .filter(key =>  dashes[key]!=null) //everytime we Remove, we set state to null, so rerender only those that are not null
