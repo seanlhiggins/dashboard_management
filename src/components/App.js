@@ -246,7 +246,7 @@ const App = () => {
     const deleteComment = (key, dashkey) => {
         const dashboards = {...dashes}
         delete dashboards[dashkey]['comments'][key] 
-        // setDashes(comment)
+        setDashes(dashboards)
       }
 
     const createNewBoard = () => {
