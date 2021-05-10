@@ -18,7 +18,7 @@ import { Card, Grid,
     FlexItem,
     Tooltip,  
     Divider, 
-
+    usePanel,
     Box, Panel, Panels, ListItem, GridPlaceholder,
     DividerVertical } from '@looker/components'
 
@@ -49,7 +49,7 @@ const App = () => {
     const [me, setMe] = useState(undefined)
     const [isAdmin, setIsAdmin] = useState(true)
     const [embedDashboard, setEmbedDashboard] = useState('451')
-    const [isMenuOpen, setMenuOpen] = useState(true)
+    const [isOpen, setOpen] = useState(true)
     
         
     // set the current user so we can look at their ID, avatar etc for comments
@@ -374,22 +374,55 @@ const App = () => {
     const user = {...me}
     const currentUserIsAdmin = user['role_ids']==2
     const open = () => {
-        setMenuOpen(true)
+        setOpen(true)
     }
-    const close = () => {
-        setMenuOpen(false)
-    }
+    const canClose = () => true
+
     let opacity = 1
-    isMenuOpen ? opacity = 0.3 : opacity = 1;
-    
+    isOpen ? opacity = 0.3 : opacity = 1;
+    const panelContent = <Box id='Dashboards'  bg="keyAccent" zIndex='1'
+    border="2px solid black" position='relative'
+    borderRadius="4px" backgroundColor='white'>
+        <Flex flexDirection="column">
+        {Object.keys(dashes)
+        .filter(key =>  dashes[key]!=null) //everytime we Remove, we set state to null, so rerender only those that are not null
+        .map(key =>
+            <FlexItem key={key}>
+                <Flex>
+                    <DashCard
+                    key={key} // each element in a list or anything that's a child must have it's own unique key identifier so React knows what to re-render efficiently
+                    index={key} // you can't use the key as a prop downstream, so if you need that ...key... you need to assign it to some other prop name
+                    details={dashes[key]}
+                    addToOrder={addToOrder}
+                    runQuery={runQuery}
+                    addComment={addComment}
+                    me={me}
+                    updateEmbedDashboard={updateEmbedDashboard}
+                    deleteComment={deleteComment}
+                    />
+                </Flex>
+                <Divider/>
+            </FlexItem>
+        )}
+        </Flex>
+    </Box>
+    const { panel } = usePanel({
+        canClose,
+        direction: 'left',
+        isOpen,
+        content: panelContent,
+        setOpen,
+        title: 'Dashboards',
+      })
 
     return (
 
-        <ComponentsProvider globalStyle={false}>
+        <ComponentsProvider >
 
                 <Flex backgroundColor='#222222' justifyContent='space-between'>
                     <FlexItem backgroundColor='#222222'>
-                        <Flex><Heading margin='3px' color='#DDDDDD'>Centre of Excellence</Heading>
+                        <Flex>
+                        <Heading margin='3px' color='#DDDDDD'>Centre of Excellence</Heading>
                         <Tooltip content="This Extension should be used as an entry point for end users. 
                         On the left, there is a panel showing a predetermined list of dashboards the user can open in the iframe. 
                         Admins can configure what dashboards show and what metadata is shown to the user by way of the Admin tab.
@@ -425,39 +458,12 @@ const App = () => {
                         </Flex>
                     </FlexItem>
                 </Flex>
+
                 <Divider/>
                     <Flex >
                         <Panels >
-                            <Panel defaultOpen={true} onClose={close} margin='0px' content={ 
-                                <Box id='Dashboards'  bg="keyAccent" zIndex='1'
-                                border="2px solid black" position='relative'
-                                borderRadius="4px" backgroundColor='white' onClick={open}>
-                                    <Flex flexDirection="column">
-                                    {Object.keys(dashes)
-                                    .filter(key =>  dashes[key]!=null) //everytime we Remove, we set state to null, so rerender only those that are not null
-                                    .map(key =>
-                                        <FlexItem key={key}>
-                                            <Flex>
-                                                <DashCard
-                                                key={key} // each element in a list or anything that's a child must have it's own unique key identifier so React knows what to re-render efficiently
-                                                index={key} // you can't use the key as a prop downstream, so if you need that ...key... you need to assign it to some other prop name
-                                                details={dashes[key]}
-                                                addToOrder={addToOrder}
-                                                runQuery={runQuery}
-                                                addComment={addComment}
-                                                me={me}
-                                                updateEmbedDashboard={updateEmbedDashboard}
-                                                deleteComment={deleteComment}
-                                                />
-                                            </Flex>
-                                            <Divider/>
-                                        </FlexItem>
-                                    )}
-                                    </Flex>
-                                </Box>
-                                } direction="left" title="Dashboard List">
-                                    <ListItem  id='dashboardopener' onClick={open} icon={<ArrowForward />} >Dashboard List</ListItem>
-                            </Panel>
+                            {panel}
+                            <ListItem  id='dashboardopener' onClick={open} icon={<ArrowForward />} >Dashboard List</ListItem>
                         </Panels>
 
                         <Panels>
@@ -477,7 +483,7 @@ const App = () => {
                                 
                                 </Box>
                             } direction="left" title="Metadata">
-                                <ListItem icon={<ArrowForward />} >Metadata</ListItem>
+                                <ListItem icon={<ArrowForward />} onClick={open}>Metadata</ListItem>
                             </Panel>
                         </Panels>
                     
@@ -503,7 +509,7 @@ const App = () => {
                     <DividerVertical stretch/>
                 </Flex>
 
-                <Box id='Iframe' padding='5px' opacity={opacity} disabled={isMenuOpen} height='100%' width='100%' >
+                <Box id='Iframe' padding='5px' opacity={opacity}  height='100%' width='100%' >
                     <DashboardDisplay
                         dashboard={embedDashboard}
                         setIsLoading={setIsLoading}

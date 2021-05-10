@@ -24,6 +24,7 @@ TODOs:
 - Add a taskbar to give users option to see png or data table
 - ~Ensure the example query run is a query object, not a text tile~
 - Put some more config options in the top header, dark mode? Download?
+ -- Maybe a config page?
 - Give list of queries from dashboard for users to run? Preselected? 
 - ~Make iframe opaque / subdued when the menu opens~
 - ~Retrieve sample dashboards from current environment~

@@ -15,7 +15,7 @@ const Main = () => {
     
     return <>
       <ExtensionProvider 
-        loadingComponent='Loading ...'
+        loadingComponent='Loading ...' 
       >
           <App />
 

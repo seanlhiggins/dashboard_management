@@ -76,8 +76,11 @@ import { LogoRings,
 
 const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateEmbedDashboard, deleteComment}) => {
     const [commentForm, setCommentForm] = useState('')
-    
+    const [inputcounter, setInputCounter] = useState(0)
     const handleFormChange = (e) => {
+      let count = e.target.value.length
+      console.log(count)
+      setInputCounter(count)
       setCommentForm(e.target.value)
     }
     const handleClick = () => {
@@ -135,7 +138,8 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateE
                         <CommentCard deleteComment={deleteComment} dashkey={index} comments={commentsObj[key]} key={key} index={key}></CommentCard>                    
                         )}                   
                           <Form>  
-                            <FieldText label="Comment" value={commentForm} onChange={handleFormChange} ref={commentRef} name="Comment" placeholder="What's your beef?" />
+                            <FieldText maxLength="120" label="Comment" value={commentForm} onChange={handleFormChange} ref={commentRef} name="Comment" placeholder="What's your beef?" />
+                            <Span fontSize='xxsmall' color='subdued'>{inputcounter}/120</Span>
                             <Button onClick={submitComment}>Submit</Button>
                           </Form>
                         </PopoverContent>
@@ -146,7 +150,7 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateE
               <Flex justifyContent='space-between'  padding='5px'>
                     <Card ref={hoverRef} raised margin='6px' onClick={() =>handleUpdateEmbed(id)}>
                         <CardMedia image={image} title={name} alt={name}/>
-                        <CardContent >
+                        <CardContent padding='5px'>
                           <Flex>
                             <FlexItem>
                               <Span fontSize='small'>{name}</Span>
