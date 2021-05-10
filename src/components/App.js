@@ -387,16 +387,16 @@ const App = () => {
 
         <ComponentsProvider globalStyle={false}>
 
-                <Flex justifyContent='space-between'>
-                    <FlexItem>
-                        <Flex><Heading margin='3px'>Centre of Excellence</Heading>
+                <Flex backgroundColor='#222222' justifyContent='space-between'>
+                    <FlexItem backgroundColor='#222222'>
+                        <Flex><Heading margin='3px' color='#DDDDDD'>Centre of Excellence</Heading>
                         <Tooltip content="This Extension should be used as an entry point for end users. 
                         On the left, there is a panel showing a predetermined list of dashboards the user can open in the iframe. 
                         Admins can configure what dashboards show and what metadata is shown to the user by way of the Admin tab.
                         Users may add comments, report bugs to assigned owners, run sample queries from the dashboards without opening and also add them directly to their own personal board (tbc).
 
                         ">
-                            <Icon color='#959a9d' icon={<InfoCircle />} size="xxsmall" />
+                            <Icon color='#DDDDDD' icon={<InfoCircle />} size="xxsmall" />
                         </Tooltip>
                         </Flex>
                     </FlexItem> 

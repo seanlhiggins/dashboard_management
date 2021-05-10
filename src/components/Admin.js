@@ -1,4 +1,4 @@
-import { ComponentsProvider, Button, SpaceVertical, Heading, Flex, Divider } from '@looker/components';
+import { ComponentsProvider, Button, SpaceVertical, Heading, Badge, Flex, Divider } from '@looker/components';
 import React from 'react';
 import AddDashForm from './AddDashForm';
 import EditDashForm from './EditDashForm';
@@ -7,7 +7,7 @@ import EditDashForm from './EditDashForm';
 const Admin = ({dashes,addDash,deleteDash, getFreshMetadata,updateDash,getSampleDashesFromSA}) => {
         return (
             <>
-                <Heading fontWeight='bold'>Admin Console</Heading>
+                <Heading fontWeight='bold'>Admin Console <Badge intent="critical" size='small'>Admin Users Only</Badge></Heading>
                 <SpaceVertical>
                 {Object.keys(dashes)
                 .filter(key => dashes[key]!=null)
