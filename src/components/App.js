@@ -244,6 +244,14 @@ const App = () => {
         setOrder(order)
     }
 
+    const deleteComment = (key) => {
+        const comment = {...dashes}
+        console.log(comment)
+        comment['comments'][key] = null
+        console.log(comment)
+        // setDashes(comment)
+      }
+
     const createNewBoard = () => {
         // TODO: take the dashboard IDs in the order object and create a board for the user
         console.log('New Board Created')
@@ -439,6 +447,7 @@ const App = () => {
                                                 addComment={addComment}
                                                 me={me}
                                                 updateEmbedDashboard={updateEmbedDashboard}
+                                                deleteComment={deleteComment}
                                                 />
                                             </Flex>
                                             <Divider/>

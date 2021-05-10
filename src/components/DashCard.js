@@ -25,7 +25,7 @@ import { Paragraph,
       FieldText,
       Fieldset,
       InputText} from '@looker/components'
-import {  Add, MoreVert, Comment } from '@styled-icons/material'
+import {  Add, MoreVert, Comment, Delete } from '@styled-icons/material'
 import { LogoRings, 
   Explore, 
   DashboardGauge, 
@@ -39,16 +39,13 @@ import { LogoRings,
         <img display='inline' src={props.src} style={{borderRadius: '50%'}} width='50px' height='50px'/>
     )
 }
-  const CommentCard = ({comments, index}) => {
+  const CommentCard = ({comments, deleteComment, index}) => {
+
 
     return (
       <Box width="30rem" height='6rem'>
-        <Card key={comments[index]}
-      // style={{float: comments[index].id % 2 == 0 ? 'right' : 'left'}}
-            >
+        <Card key={comments[index]}>
           <CardContent>
-
-
                   <Flex >
                     <FlexItem>{comments.avatar && <AvatarIcon size='xsmall' margin='medium' src={comments.avatar}/>}</FlexItem>
                     <FlexItem>
@@ -59,8 +56,6 @@ import { LogoRings,
                             <Icon color="subdued" size='xxsmall' icon={<CalendarHour />}/>  <Span color="subdued" fontSize='xxsmall'>{comments.timestamp}</Span>
                           </Flex>
                         </FlexItem>
-
-
                           <FlexItem><Flex><Icon size='xxsmall' icon={<Notes />}/>
                               <Span truncate fontSize='small'>
                               {comments.msg}
@@ -69,6 +64,9 @@ import { LogoRings,
                           </FlexItem>
                       </Flex>
                     </FlexItem>
+                    <FlexItem>
+                      <IconButton color='subdued' size='xxsmall' onClick={() => deleteComment(index)} label="Remove from Board" icon={<Delete />}></IconButton>
+                    </FlexItem>
                   </Flex>
           </CardContent>
         </Card>
@@ -76,7 +74,7 @@ import { LogoRings,
     )
 }
 
-const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateEmbedDashboard}) => {
+const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateEmbedDashboard, deleteComment}) => {
     const [commentForm, setCommentForm] = useState('')
     
     const handleFormChange = (e) => {
@@ -136,7 +134,7 @@ const DashCard = ({index, details, addToOrder, runQuery, addComment, me, updateE
                                                 </Prompt>
     const commentPop = <PopoverContent p="large">
                           {Object.keys(commentsObj).map(key => 
-                        <CommentCard comments={commentsObj[key]} key={key} index={key}></CommentCard>                    
+                        <CommentCard deleteComment={deleteComment} comments={commentsObj[key]} key={key} index={key}></CommentCard>                    
                         )}                   
                           <Form>  
                             <FieldText label="Comment" value={commentForm} onChange={handleFormChange} ref={commentRef} name="Comment" placeholder="What's your beef?" />

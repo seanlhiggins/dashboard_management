@@ -27,3 +27,4 @@ TODOs:
 - Give list of queries from dashboard for users to run? Preselected? 
 - ~Make iframe opaque / subdued when the menu opens~
 - ~Retrieve sample dashboards from current environment~
+- Delete comments
