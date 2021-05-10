@@ -428,7 +428,7 @@ const App = () => {
                 <Divider/>
                     <Flex >
                         <Panels >
-                            <Panel defaultOpen={true} margin='0px' content={ 
+                            <Panel defaultOpen={true} onClose={close} margin='0px' content={ 
                                 <Box id='Dashboards'  bg="keyAccent" zIndex='1'
                                 border="2px solid black" position='relative'
                                 borderRadius="4px" backgroundColor='white' onClick={open}>
